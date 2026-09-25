@@ -6,1825 +6,523 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vivenns</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet">
     <link rel="icon" type="image/png" href="images/favicon.png">
     <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.11/dist/lenis.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css">
     <link rel="stylesheet" href="src/output.css">
-    <style>
-        :root {
-            --red: #a97a29;
-            --ink: #272827;
-            --muted: #6f706d;
-            --paper: #FFFFFF;
-        }
 
-
-        .experience {
-            position: relative;
-            min-height: 100svh;
-            overflow: hidden;
-            background: #eeefeb;
-        }
-
-        .map-stage {
-            position: relative;
-            height: 75vh;
-
-
-        }
-
-        #campusMap {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            display: block;
-            border-radius: 30px;
-        }
-
-        .place-layer {
-            position: absolute;
-            z-index: 2;
-            inset: 0;
-        }
-
-        .pin {
-            position: absolute;
-            width: 35px;
-            height: 35px;
-            transform: translate(-50%, -50%);
-            border: 0;
-            border-radius: 50%;
-            background: var(--red);
-            color: #fff;
-            cursor: pointer;
-            display: grid;
-            place-items: center;
-            box-shadow: 0 1px 0 #fff8 inset, 0 4px 12px #50101055;
-            transition: transform .22s ease, background .22s ease;
-        }
-
-        .pin::before {
-            content: "";
-            position: absolute;
-            inset: -8px;
-            border: 1px solid transparent;
-            border-radius: 50%;
-            transition: .22s ease;
-        }
-
-        .pin span {
-            position: relative;
-            z-index: 1;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #fff;
-        }
-
-        .pin:hover,
-        .pin:focus-visible,
-        .pin[aria-pressed="true"] {
-            transform: translate(-50%, -50%) scale(1.15);
-            outline: none;
-        }
-
-        .pin:hover::before,
-        .pin:focus-visible::before,
-        .pin[aria-pressed="true"]::before {
-            border-color: #9d17176e;
-            inset: -13px;
-        }
-
-        .pin[aria-pressed="true"]::before {
-            animation: ping 1.8s ease-out infinite;
-        }
-
-        .pin-label {
-            position: absolute;
-            min-width: max-content;
-            left: 50%;
-            bottom: calc(100% + 10px);
-            transform: translateX(-50%) translateY(3px);
-            padding: 7px 9px;
-            border-radius: 2px;
-            background: #252625;
-            color: #fff;
-            font-size: .7rem;
-            font-weight: 700;
-            letter-spacing: .02em;
-            opacity: 0;
-            pointer-events: none;
-            transition: .2s ease;
-        }
-
-        .pin:hover .pin-label,
-        .pin:focus-visible .pin-label,
-        .pin[aria-pressed="true"] .pin-label {
-            opacity: 1;
-            transform: translateX(-50%);
-        }
-
-        .rail {
-            position: absolute;
-            z-index: 3;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            padding: 0 20px 27px;
-            overflow: hidden;
-        }
-
-        .rail .swiper-wrapper {
-            padding-top: 20px;
-            align-items: stretch;
-        }
-
-        .card {
-            width: min(580px, calc(100vw - 40px));
-            min-height: 206px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            overflow: hidden;
-            background: var(--paper);
-            border-radius: 11px;
-            box-shadow: 0 5px 16px #2425220e;
-            cursor: pointer;
-            transition: transform .22s ease, box-shadow .22s ease;
-        }
-
-        .card h4 {
-            font-size: 1.5rem;
-
-        }
-
-        .card:nth-child(3) {
-            display: none;
-        }
-
-        .card:last-child {
-            display: none;
-        }
-
-        .card:hover,
-        .card:focus-visible,
-        .card.active {
-            transform: translateY(-7px);
-            box-shadow: 0 14px 30px #24252229;
-            outline: none;
-        }
-
-        .card .map-crop {
-            min-height: 100%;
-            background-image: linear-gradient(#ffffff05, #ffffff05), url('campus-masterplan.png');
-            background-size: cover;
-            background-position: center;
-            filter: saturate(.75) contrast(.95);
-        }
-
-        .card-copy {
-            padding: 30px 25px 20px;
-        }
-
-        .number {
-            display: block;
-            margin-bottom: 17px;
-            color: var(--red);
-            font-size: .7rem;
-            font-weight: 800;
-            letter-spacing: .14em;
-        }
-
-
-        .card p {
-            margin: 0;
-            color: var(--muted);
-            font-size: .92rem;
-            line-height: 1.36;
-        }
-
-        .card.is-selected {
-            grid-template-columns: 1fr;
-            background: var(--red);
-            color: #fff;
-            padding: 32px 30px;
-        }
-
-        .card.is-selected .map-crop {
-            display: none;
-        }
-
-        .card.is-selected .card-copy {
-            padding: 0;
-            max-width: 420px;
-        }
-
-        .card.is-selected .number {
-            color: #f6c3bb;
-        }
-
-        .card.is-selected p {
-            color: #fff;
-        }
-
-        .scroll-cue {
-            position: absolute;
-            z-index: 3;
-            right: 22px;
-            bottom: 246px;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            border: 2px solid #fff;
-            background: #252625;
-            color: #fff;
-            display: grid;
-            place-items: center;
-            font-size: 1.4rem;
-            box-shadow: 0 1px 4px #0003;
-        }
-
-        .slider-controls {
-            position: absolute;
-            z-index: 4;
-            right: 23px;
-            bottom: 245px;
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .slider-controls button {
-            width: 45px;
-            height: 45px;
-            border: 2px solid #fff;
-            border-radius: 50%;
-            background: #252625;
-            color: #fff;
-            cursor: pointer;
-            font-size: 1.45rem;
-            line-height: 1;
-            transition: transform .2s ease, background .2s ease;
-        }
-
-        .slider-controls button:hover,
-        .slider-controls button:focus-visible {
-            background: var(--red);
-            transform: scale(1.07);
-            outline: none;
-        }
-
-        .slider-pagination {
-            position: absolute;
-            z-index: 4;
-            right: 130px;
-            bottom: 264px;
-            width: auto !important;
-        }
-
-        .slider-pagination .swiper-pagination-bullet {
-            width: 6px;
-            height: 6px;
-            opacity: .45;
-            background: #252625;
-        }
-
-        .slider-pagination .swiper-pagination-bullet-active {
-            width: 20px;
-            border-radius: 8px;
-            opacity: 1;
-            background: var(--red);
-        }
-
-        .story-count {
-            position: absolute;
-            z-index: 4;
-            right: 207px;
-            bottom: 261px;
-            color: #383936;
-            font-size: .71rem;
-            font-weight: 800;
-            letter-spacing: .12em;
-        }
-
-        .credit {
-            position: absolute;
-            z-index: 3;
-            bottom: 5px;
-            left: 7px;
-            color: #5c5d5a;
-            font-size: .64rem;
-        }
-
-        @keyframes ping {
-            0% {
-                transform: scale(1);
-                opacity: .8;
-            }
-
-            75%,
-            100% {
-                transform: scale(1.8);
-                opacity: 0;
-            }
-        }
-
-        #placeLayer .pin-popup {
-            --popup-width: min(450px, calc(100vw - 32px));
-            position: absolute;
-            z-index: 20;
-            width: var(--popup-width);
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.65);
-            border-radius: 14px;
-            background: #fff;
-            box-shadow: 0 18px 42px rgba(23, 32, 26, 0.24);
-            opacity: 0;
-            pointer-events: none;
-            transform: translate(-50%, calc(-100% - 18px)) translateY(8px);
-            transition: opacity 180ms ease, transform 180ms ease;
-            display: flex;
-            align-items: center;
-        }
-
-        #placeLayer .pin-popup::after {
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            width: 16px;
-            height: 16px;
-            background: #fff;
-            content: '';
-            transform: translateX(-50%) rotate(45deg);
-        }
-
-        #placeLayer .pin-popup.is-open {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translate(-50%, calc(-100% - 18px));
-        }
-
-        #placeLayer .pin-popup .map-crop {
-            height: 148px;
-            background: #dfe4dc url('campus-masterplan.png') var(--crop) / 300% auto no-repeat;
-            width: 50%;
-        }
-
-        #placeLayer .pin-popup .card-copy {
-            position: relative;
-            z-index: 1;
-            padding: 18px 20px 20px;
-            background: #fff;
-        }
-
-        #placeLayer .pin-popup .number {
-            display: block;
-            margin-bottom: 5px;
-            color: #6c756c;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-        }
-
-        #placeLayer .pin-popup h4 {
-            margin: 0 32px 8px 0;
-            color: #1b2820;
-            font-size: 20px;
-            line-height: 1.12;
-        }
-
-        #placeLayer .pin-popup p {
-            margin: 0;
-            color: #586159;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        #placeLayer .pin-popup-close {
-            position: absolute;
-            z-index: 2;
-            top: 9px;
-            right: 9px;
-            display: grid;
-            width: 28px;
-            height: 28px;
-            padding: 0;
-            border: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.9);
-            color: #1b2820;
-            cursor: pointer;
-            font-size: 22px;
-            line-height: 1;
-            place-items: center;
-        }
-
-        @media (max-width:680px) {
-            .map-stage {
-                min-height: 590px;
-            }
-
-            .rail {
-                padding: 0 12px 21px;
-            }
-
-            .card {
-                width: calc(100vw - 24px);
-                min-height: 174px;
-                grid-template-columns: 125px 1fr;
-            }
-
-            .card.is-selected {
-                padding: 24px;
-            }
-
-            .card-copy {
-                padding: 22px 17px 15px;
-            }
-
-            .card p {
-                font-size: .79rem;
-            }
-
-            .scroll-cue,
-            .slider-controls,
-            .slider-pagination,
-            .story-count {
-                display: none;
-            }
-
-            .pin {
-                width: 27px;
-                height: 27px;
-            }
-        }
-
-        @media (prefers-reduced-motion:reduce) {
-
-            *,
-            *::before {
-                transition: none !important;
-                scroll-behavior: auto !important;
-            }
-        }
-
-        .card:first-child .map-crop,
-        .card:first-child.is-selected .map-crop {
-            background-image: linear-gradient(#ffffff05, #ffffff05), url('images/banner.png');
-        }
-
-        .card:nth-child(2) .map-crop {
-            background-image: linear-gradient(#ffffff05, #ffffff05), url('images/04.jpg');
-        }
-
-        .card:nth-child(3) .map-crop {
-            background-image: linear-gradient(#ffffff05, #ffffff05), url('images/03.jpg');
-        }
-
-        .card:nth-child(4) .map-crop {
-            background-image: linear-gradient(#ffffff05, #ffffff05), url('images/10.jpg');
-        }
-
-        .card:nth-child(5) .map-crop {
-            background-image: linear-gradient(#ffffff05, #ffffff05), url('images/12.jpg');
-        }
-
-        .card:nth-child(6) .map-crop {
-            background-image: linear-gradient(#ffffff05, #ffffff05), url('images/06.jpg');
-        }
-
-        .card:nth-child(7) .map-crop {
-            background-image: linear-gradient(#ffffff05, #ffffff05), url('images/03.jpg');
-        }
-
-        .card:nth-child(8) .map-crop {
-            background-image: linear-gradient(#ffffff05, #ffffff05), url('images/13.jpg');
-        }
-
-        .card:nth-child(9) .map-crop {
-            background-image: linear-gradient(#ffffff05, #ffffff05), url('images/14.jpg');
-        }
-        @media only screen and (max-width: 1440px) {
-            .map-stage{
-                height: 55vh;
-            }
-                
-        }
-    </style>
 </head>
 
 <body>
+    <header id="siteHeader" class="site_header relative z-50 w-full bg-white py-3 transition-all duration-300 sm:py-4">
 
-    <header id="siteHeader" class="site_header  z-50 w-full transition-all duration-300 ease-in-out">
         <div class="container_wrapper">
-            <div class="header_inner flex  items-center justify-between rounded-2xl transition-all duration-300  ">
+            <div
+                class="header_inner flex min-h-[52px] items-center justify-between gap-3 sm:min-h-[63px] sm:gap-5 xl:gap-6">
+
+                <!-- Logo -->
                 <a href="index.html" class="logo shrink-0" aria-label="Vivenns home">
-                    <img src="images/vivennslogo.png" alt="Vivenns" class="h-auto transition-all duration-300">
+                    <img src="images/vivennslogo.png" alt="Vivenns"
+                        class="block h-auto w-[165px] max-w-[62vw] sm:w-[205px] xl:w-[211px]">
                 </a>
 
-                <!-- Desktop navigation -->
-                <nav class="hidden lg:block" aria-label="Primary navigation">
-                    <ul class="flex items-center gap-4 xl:gap-6">
-                        <li><a href="our-vision.html" class="nav_link">Our Vision</a></li>
-                        <li><a href="the-city.html" class="nav_link">The City</a></li>
-                        <li><a href="global-education.html" class="nav_link">Global Education</a></li>
-                        <li><a href="careers.html" class="nav_link">Careers</a></li>
-                        <li><a href="global-learning.html" class="nav_link">Global Learning</a></li>
-                        <li><a href="partners.html" class="nav_link">Partner With Us</a></li>
-                        <li><a href="progress.html" class="nav_link">Progress</a></li>
+                <!-- Desktop Navigation -->
+                <nav class="hidden min-w-0 flex-1 xl:block" aria-label="Primary navigation">
+                    <ul class="flex items-center justify-end gap-3 2xl:gap-5">
+                        <li>
+                            <a href="our-vision.html"
+                                class="nav_link whitespace-nowrap text-[13px] font-medium text-[#002f63] transition-colors duration-200 hover:text-[#BFA264] 2xl:text-sm">
+                                Our Vision
+                            </a>
+                        </li>
+                        <li>
+                            <a href="the-city.html"
+                                class="nav_link whitespace-nowrap text-[13px] font-medium text-[#002f63] transition-colors duration-200 hover:text-[#BFA264] 2xl:text-sm">
+                                The City
+                            </a>
+                        </li>
+                        <li>
+                            <a href="global-education.html"
+                                class="nav_link whitespace-nowrap text-[13px] font-medium text-[#002f63] transition-colors duration-200 hover:text-[#BFA264] 2xl:text-sm">
+                                Global Education
+                            </a>
+                        </li>
+                        <li>
+                            <a href="careers.html"
+                                class="nav_link whitespace-nowrap text-[13px] font-medium text-[#002f63] transition-colors duration-200 hover:text-[#BFA264] 2xl:text-sm">
+                                Careers
+                            </a>
+                        </li>
+                        <li>
+                            <a href="global-learning.html"
+                                class="nav_link whitespace-nowrap text-[13px] font-medium text-[#002f63] transition-colors duration-200 hover:text-[#BFA264] 2xl:text-sm">
+                                Global Learning
+                            </a>
+                        </li>
+                        <li>
+                            <a href="partners.html"
+                                class="nav_link whitespace-nowrap text-[13px] font-medium text-[#002f63] transition-colors duration-200 hover:text-[#BFA264] 2xl:text-sm">
+                                Partner With Us
+                            </a>
+                        </li>
+                        <li>
+                            <a href="progress.html"
+                                class="nav_link whitespace-nowrap text-[13px] font-medium text-[#ad7d17] transition-colors duration-200 hover:text-[#BFA264] 2xl:text-sm">
+                                Progress
+                            </a>
+                        </li>
                     </ul>
                 </nav>
 
-                <div class="hidden lg:block">
-                    <a href="contact.html" class="theme_button">Contact Us</a>
+                <!-- Desktop Contact Button -->
+                <div class="hidden shrink-0 xl:block">
+                    <a href="contact.html" class="theme_button light_mode">
+                        Contact Us
+                    </a>
                 </div>
 
-                <!-- Mobile menu control -->
-                <button id="menuToggle" type="button" class="menu_toggle lg:hidden" aria-controls="mobileMenu"
-                    aria-expanded="false">
-                    <span class="sr-only">Open navigation menu</span>
-                    <svg class="menu_open" viewBox="0 0 24 24" aria-hidden="true">
+                <!-- Mobile / Tablet Menu Button -->
+                <button id="menuToggle" type="button"
+                    class="menu_toggle inline-grid h-11 w-11 shrink-0 place-items-center rounded-full text-[#002f63] transition-colors hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#BFA264] focus:ring-offset-2 xl:hidden"
+                    aria-controls="mobileMenu" aria-expanded="false">
+                    <span id="menuToggleText" class="sr-only">Open navigation menu</span>
+
+                    <svg id="menuOpenIcon"
+                        class="col-start-1 row-start-1 h-6 w-6 fill-none stroke-current stroke-[1.8] transition-all duration-200"
+                        viewBox="0 0 24 24" stroke-linecap="round" aria-hidden="true">
                         <path d="M4 7h16M4 12h16M4 17h16" />
                     </svg>
-                    <svg class="menu_close" viewBox="0 0 24 24" aria-hidden="true">
+
+                    <svg id="menuCloseIcon"
+                        class="col-start-1 row-start-1 h-6 w-6 rotate-[-45deg] fill-none stroke-current stroke-[1.8] opacity-0 transition-all duration-200"
+                        viewBox="0 0 24 24" stroke-linecap="round" aria-hidden="true">
                         <path d="m6 6 12 12M18 6 6 18" />
                     </svg>
                 </button>
             </div>
 
-            <!-- Mobile navigation: present in the DOM for screen readers but hidden until opened -->
-            <nav id="mobileMenu" class="mobile_menu lg:hidden" aria-label="Mobile navigation">
-                <ul>
-                    <li><a href="our-vision.html" class="nav_link">Our Vision</a></li>
-                    <li><a href="the-city.html" class="nav_link">The City</a></li>
-                    <li><a href="global-education.html" class="nav_link">Global Education</a></li>
-                    <li><a href="careers.html" class="nav_link">Careers</a></li>
-                    <li><a href="global-learning.html" class="nav_link">Global Learning</a></li>
-                    <li><a href="partners.html" class="nav_link">Partner With Us</a></li>
-                    <li><a href="progress.html" class="nav_link">Progress</a></li>
+            <!-- Mobile / Tablet Navigation -->
+            <nav id="mobileMenu" class="mobile_menu hidden border-t border-slate-100 pb-5 pt-2 xl:hidden"
+                aria-label="Mobile navigation">
+                <ul class="m-0 list-none p-0">
+                    <li class="border-b border-slate-100">
+                        <a href="our-vision.html"
+                            class="nav_link block py-3.5 text-base font-medium text-[#002f63] transition-colors hover:text-[#BFA264]">
+                            Our Vision
+                        </a>
+                    </li>
+                    <li class="border-b border-slate-100">
+                        <a href="the-city.html"
+                            class="nav_link block py-3.5 text-base font-medium text-[#002f63] transition-colors hover:text-[#BFA264]">
+                            The City
+                        </a>
+                    </li>
+                    <li class="border-b border-slate-100">
+                        <a href="global-education.html"
+                            class="nav_link block py-3.5 text-base font-medium text-[#002f63] transition-colors hover:text-[#BFA264]">
+                            Global Education
+                        </a>
+                    </li>
+                    <li class="border-b border-slate-100">
+                        <a href="careers.html"
+                            class="nav_link block py-3.5 text-base font-medium text-[#002f63] transition-colors hover:text-[#BFA264]">
+                            Careers
+                        </a>
+                    </li>
+                    <li class="border-b border-slate-100">
+                        <a href="global-learning.html"
+                            class="nav_link block py-3.5 text-base font-medium text-[#002f63] transition-colors hover:text-[#BFA264]">
+                            Global Learning
+                        </a>
+                    </li>
+                    <li class="border-b border-slate-100">
+                        <a href="partners.html"
+                            class="nav_link block py-3.5 text-base font-medium text-[#002f63] transition-colors hover:text-[#BFA264]">
+                            Partner With Us
+                        </a>
+                    </li>
+                    <li class="border-b border-slate-100">
+                        <a href="progress.html"
+                            class="nav_link block py-3.5 text-base font-medium text-[#ad7d17] transition-colors hover:text-[#BFA264]">
+                            Progress
+                        </a>
+                    </li>
                 </ul>
-                <a href="#contact" class="theme_button mobile_cta">Contact Us</a>
+
+                <a href="contact.html" class="theme_button light_mode mt-5 inline-flex">
+                    Contact Us
+                </a>
             </nav>
         </div>
-
     </header>
 
-    <section>
+
+    <section class="py-5" aria-labelledby="city-learning-title">
         <div class="container_wrapper">
-            <section aria-labelledby="hero-title" class="banner_block flex flex-col overlay h-[85vh] sm:h-[75vh]">
+            <div
+                class="grid overflow-hidden rounded-[20px] bg-[#f1f6fe] lg:min-h-[304px] lg:grid-cols-2 lg:items-center">
+                <div class="space-y-4 md:space-y-5 p-6 sm:p-8 md:p-10 lg:p-12">
+                    <h1 class="text-[#033064]">
+                        A City For Learning.<br class="hidden lg:block">
+                        A World Of Possibilities.
+                    </h1>
 
-                <img src="images/banner.png"
-                    alt="Architectural concept of a landscaped education city with sculptural gateway towers"
-                    width="1536" height="1024" fetchpriority="high"
-                    class="absolute inset-0 -z-20 h-[85vh] w-full object-cover object-[85%_center] sm:h-[75vh] sm:object-[65%_center] lg:object-[70%_center] " />
-
-                <div class="my-auto">
-                    <div class="banner_content space-x-0 space-y-3 sm:space-y-4 lg:space-y-4">
-                        <span class="eyebrow_text">
-                            Vivenns International Education City
-                        </span>
-
-                        <h1
-                            class="text-3xl font-bold uppercase leading-[1.1] tracking-[-0.035em] text-white sm:max-w-[20ch] sm:text-3xl lg:text-4xl xl:text-5xl">
-                            A city for learning.
-                            <span class="mt-2 block">A world of possibilities.</span>
-                        </h1>
-
-                        <p class="max-w-[590px] text-sm leading-relaxed text-[#e0eae2] sm:text-lg lg:text-xl">
-                            A connected ecosystem of global education, skills, research, innovation and opportunity —
-                            taking
-                            shape in Amaravati, Andhra Pradesh.
-                        </p>
-
-                        <div class="theme_btn_wrapper">
-                            <a href="/explore" class="theme_button">
-                                Explore Vivenns
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    class="absolute inset-x-4 justify-center bottom-4 flex items-center gap-2 rounded-xl bg-white px-4 py-3 text-sm text-black sm:inset-x-auto sm:right-10 sm:bottom-10 sm:rounded-2xl sm:px-8 sm:py-4 sm:text-base">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="1.4em" height="1.4em" viewBox="0 0 24 24"
-                        class="shrink-0">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="2">
-                            <circle cx="12" cy="10" r="3" />
-                            <path
-                                d="M12 2a8 8 0 0 0-8 8c0 1.892.402 3.13 1.5 4.5L12 22l6.5-7.5c1.098-1.37 1.5-2.608 1.5-4.5a8 8 0 0 0-8-8" />
-                        </g>
-                    </svg>
-
-                    <p>Amaravati, Andhra Pradesh, India</p>
-                </div>
-            </section>
-        </div>
-    </section>
-
-    <section aria-labelledby="vision-title" class="buildings_desti_block py-16 sm:py-20 lg:py-28">
-        <div class="container_wrapper">
-            <!-- Section heading -->
-            <div class="mb-10 grid gap-4 sm:mb-12 lg:grid-cols-2 lg:items-end lg:gap-10">
-                <div class="space-y-4">
-                    <span class="eyebrow_text">Our Vision</span>
-
-                    <h2 id="vision-title">
-                        Building a new destination for global education.
-                    </h2>
-
-                    <p class="max-w-xl text-base leading-relaxed text-[#626e71]">
-                        Bringing leading universities, ambitious students, research,
-                        skills and industry together in one place.
+                    <p class="text-[#5c5c5c]">
+                        A connected ecosystem of global education, skills, research,
+                        innovation and opportunity, taking shape in Amaravati, Andhra Pradesh.
                     </p>
-                </div>
 
-                <div class="lg:text-end">
-                    <a href="/vision" class="theme_button inline-flex">
-                        Discover Our Vision
+                    <a href="our-vision.html" class="theme_button light_mode">
+                        Explore Vivenns
                     </a>
                 </div>
-            </div>
 
-            <!-- Vision statement and image -->
-            <div class="grid gap-6 lg:grid-cols-12">
-                <!-- Quote card -->
-                <div
-                    class="relative isolate flex min-h-[280px] flex-col justify-center overflow-hidden rounded-2xl border border-[#719185] bg-[#013162] px-6 py-10 sm:min-h-[340px] sm:px-9 sm:py-12 lg:col-span-5">
-                    <div aria-hidden="true"
-                        class="absolute inset-0 -z-10 bg-gradient-to-r from-[#013162] to-transparent"></div>
-
-                    <svg aria-hidden="true" viewBox="0 0 220 260" fill="none"
-                        class="pointer-events-none absolute -bottom-5 -right-8 -z-10 h-[220px] w-[185px] text-[#88a64c] opacity-30 sm:right-0 sm:h-[260px] sm:w-[220px]">
-                        <path d="M183 270C174 206 159 156 151 45" stroke="currentColor" stroke-width="3" />
-                        <g fill="currentColor" fill-opacity=".4" stroke="currentColor" stroke-width="2">
-                            <path d="M151 96C120 71 103 40 78 29C117 31 151 50 151 96Z" />
-                            <path d="M150 73C137 43 143 18 158 3C164 35 162 54 150 73Z" />
-                            <path d="M154 130C159 93 182 65 207 56C197 93 181 116 154 130Z" />
-                            <path d="M157 151C128 120 103 112 75 115C101 143 126 152 157 151Z" />
-                            <path d="M169 196C123 169 86 178 43 221C91 206 124 188 169 196Z" />
-                            <path d="M173 217C169 180 183 154 204 137C208 171 197 197 173 217Z" />
-                        </g>
-                        <g stroke="currentColor" stroke-width="1.5">
-                            <path d="M151 96L91 40M150 73L156 18M154 130L195 73" />
-                            <path d="M157 151L89 122M169 196C126 181 90 202 58 215" />
-                            <path d="M173 217L199 153" />
-                        </g>
-                    </svg>
-
-                    <h3 class="text-3xl font-bold italic leading-tight tracking-wide text-white sm:text-4xl">
-                        Knowledge is not<br class="hidden sm:block" />
-                        stored. It flows.
-                    </h3>
-
-                    <p class="mt-4 max-w-sm text-sm leading-relaxed text-white sm:text-base">
-                        Designed to connect talent, ideas and opportunity.
-                    </p>
-                </div>
-
-                <!-- Image card -->
-                <div class="overflow-hidden rounded-2xl lg:col-span-7">
-                    <img src="images/02.jpg" alt="Students and campus environment"
-                        class="h-[280px] w-full object-cover sm:h-[340px] lg:h-full lg:min-h-[340px] lg:max-h-[440px]" />
+                <div class="relative h-56 sm:h-72 md:h-80 lg:h-auto">
+                    <img src="images/14.jpg" alt="Aerial view of Vivenns city for learning"
+                        class="h-full w-full object-cover object-center" loading="lazy">
                 </div>
             </div>
         </div>
     </section>
 
-    <section aria-labelledby="city-heading" class="ersid_block  py-12 sm:px-6 sm:pt-16 sm:pb-20 lg:px-0 lg:pb-28">
+    <section class="py-5" aria-label="Discover Vivenns">
         <div class="container_wrapper">
-            <div class="mb-10 grid gap-5 lg:mb-16 lg:grid-cols-2 lg:items-center lg:gap-10">
-                <div class="space-y-4">
-                    <span class="eyebrow_text">The City</span>
-                    <h2 id="city-heading">More than a campus. A future-ready education ecosystem.</h2>
-                </div>
-                <p class="max-w-xl text-base leading-relaxed text-[#626e71] lg:ml-auto ">
-                    A place where education, research, skills, industry and everyday life come together.
-                </p>
-            </div>
-
-            <nav aria-label="Campus pillars" class="mb-6 rounded-2xl px-3 py-5 sm:mb-8 sm:px-6 sm:py-6 lg:px-8">
-                <ul class="grid grid-cols-1 gap-2 min-[440px]:grid-cols-2 sm:gap-3 md:grid-cols-5 md:gap-0">
-                    <li
-                        class="border-b md:border-b-transparent border-[#626e7120] flex min-w-0 items-center justify-start gap-3  px-3 py-4 min-[440px]:justify-center md:rounded-none md:border-r md:border-[#bed2ce] md:px-4 md:py-1 lg:px-7">
-                        <svg aria-hidden="true" viewBox="0 0 48 48"
-                            class="h-9 w-9 shrink-0 fill-none stroke-current stroke-[2.2] sm:h-11 sm:w-11">
-                            <path d="M24 4 6 12v10c0 11 7.8 18.6 18 22 10.2-3.4 18-11 18-22V12L24 4Z" />
-                            <path d="m14 18 10-5 10 5-10 5-10-5Zm4 3v8l6 3 6-3v-8M24 18v8" />
-                        </svg>
-                        <span class="text-base font-semibold tracking-[-0.03em] sm:text-lg">Education</span>
-                    </li>
-                    <li
-                        class="border-b md:border-b-transparent border-[#626e7120] flex min-w-0 items-center justify-start gap-3 rounded-lg px-3 py-4 min-[440px]:justify-center md:rounded-none md:border-r md:border-[#bed2ce] md:px-4 md:py-1 lg:px-7">
-                        <svg aria-hidden="true" viewBox="0 0 48 48"
-                            class="h-9 w-9 shrink-0 fill-none stroke-current stroke-[2.2] sm:h-11 sm:w-11">
-                            <path
-                                d="M20 37h8M21 42h6M24 5a12 12 0 0 0-7 21.8c1.7 1.2 2 3.2 2 5.2h10c0-2 .3-4 2-5.2A12 12 0 0 0 24 5Z" />
-                            <path d="M24 1v3M7 8l3 3M41 8l-3 3M3 23h4M41 23h4" />
-                        </svg>
-                        <span class="text-base font-semibold tracking-[-0.03em] sm:text-lg">Research</span>
-                    </li>
-                    <li
-                        class="border-b md:border-b-transparent border-[#626e7120] flex min-w-0 items-center justify-start gap-3 rounded-lg px-3 py-4 min-[440px]:justify-center md:rounded-none md:border-r md:border-[#bed2ce] md:px-4 md:py-1 lg:px-7">
-                        <svg aria-hidden="true" viewBox="0 0 48 48"
-                            class="h-9 w-9 shrink-0 fill-none stroke-current stroke-[2.2] sm:h-11 sm:w-11">
-                            <circle cx="24" cy="11" r="5" />
-                            <circle cx="10" cy="23" r="4" />
-                            <circle cx="38" cy="23" r="4" />
-                            <path
-                                d="M14 39c0-7 4-12 10-12s10 5 10 12M2 37c0-5.6 3-10 8-10 3.4 0 6 1.8 7.2 5M46 37c0-5.6-3-10-8-10-3.4 0-6 1.8-7.2 5" />
-                        </svg>
-                        <span class="text-base font-semibold tracking-[-0.03em] sm:text-lg">Skills</span>
-                    </li>
-                    <li
-                        class="border-b md:border-b-transparent border-[#626e7120] flex min-w-0 items-center justify-start gap-3 rounded-lg px-3 py-4 min-[440px]:justify-center md:rounded-none md:border-r md:border-[#bed2ce] md:px-4 md:py-1 lg:px-7">
-                        <svg aria-hidden="true" viewBox="0 0 48 48"
-                            class="h-9 w-9 shrink-0 fill-none stroke-current stroke-[2.2] sm:h-11 sm:w-11">
-                            <rect x="7" y="28" width="7" height="13" rx="1" />
-                            <rect x="20.5" y="18" width="7" height="23" rx="1" />
-                            <rect x="34" y="7" width="7" height="34" rx="1" />
-                            <path d="M5 43h38" />
-                        </svg>
-                        <span class="text-base font-semibold tracking-[-0.03em] sm:text-lg">Enterprise</span>
-                    </li>
-                    <li
-                        class="flex min-w-0 items-center justify-start gap-3 rounded-lg px-3 py-2 min-[440px]:col-span-2 min-[440px]:justify-center md:col-span-1 md:justify-center md:rounded-none md:px-4 md:py-1 lg:px-7">
-                        <svg aria-hidden="true" viewBox="0 0 48 48"
-                            class="h-9 w-9 shrink-0 fill-none stroke-current stroke-[2.2] sm:h-11 sm:w-11">
-                            <path d="M7 42C8 22 20 8 41 6c-1 21-15 34-34 36Z" />
-                            <path d="M7 42c7-10 15-17 27-24" />
-                        </svg>
-                        <span class="text-base font-semibold tracking-[-0.03em] sm:text-lg">Living</span>
-                    </li>
-                </ul>
-            </nav>
-
-            <div class="grid gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(330px,0.95fr)] lg:gap-5">
-                <div class="grid gap-4 sm:grid-cols-2 lg:gap-5">
-                    <figure
-                        class="group relative min-h-[250px] overflow-hidden rounded-2xl bg-slate-700 sm:col-span-2 sm:min-h-[360px] lg:min-h-[440px]">
-                        <img src="images/01.jpg" alt="Aerial view of a green urban campus"
-                            class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/5"></div>
-                        <figcaption
-                            class="absolute bottom-4 left-4 text-sm font-semibold text-white drop-shadow sm:text-base">
-                            Illustrative city concept</figcaption>
-                    </figure>
-                    <figure
-                        class="group relative min-h-[220px] overflow-hidden rounded-2xl bg-slate-700 sm:min-h-[240px]">
-                        <img src="images/02.jpg" alt="Students in a bright shared learning space"
-                            class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
-                        </div>
-                        <figcaption class="absolute bottom-4 left-4 text-sm font-semibold text-white drop-shadow">Shared
-                            learning spaces</figcaption>
-                    </figure>
-                    <figure
-                        class="group relative min-h-[220px] overflow-hidden rounded-2xl bg-slate-700 sm:min-h-[240px]">
-                        <img src="images/03.jpg" alt="Modern buildings beside a green park"
-                            class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
-                        </div>
-                        <figcaption class="absolute bottom-4 left-4 text-sm font-semibold text-white drop-shadow">
-                            Connected living</figcaption>
-                    </figure>
-                </div>
-
-                <aside class="rounded-2xl bg-[#013162] px-5 py-7 text-white sm:px-9 sm:py-9">
-                    <h3 class="font-display text-2xl leading-none tracking-[-0.04em] text-white sm:text-3xl">The
-                        Knowledge Spine</h3>
-                    <p class="mt-3 max-w-sm text-base leading-snug text-white/90 sm:text-lg sm:leading-tight">A
-                        pedestrian-first route connecting learning, research and everyday life.</p>
-                    <ol class="mt-6 divide-y divide-white/15">
-                        <li class="flex gap-3 py-5 first:pt-0 sm:gap-4 sm:py-6"><span
-                                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#197461]/40 font-display text-xl sm:h-16 sm:w-16 sm:text-2xl">01</span>
-                            <div class="pt-1">
-                                <h4 class="text-lg font-semibold leading-tight sm:text-xl">A shared intellectual heart
-                                </h4>
-                                <p class="mt-1 text-sm leading-snug text-white/75">Library, innovation and
-                                    collaboration.</p>
-                            </div>
-                        </li>
-                        <li class="flex gap-3 py-5 sm:gap-4 sm:py-6"><span
-                                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#197461]/40 font-display text-xl sm:h-16 sm:w-16 sm:text-2xl">02</span>
-                            <div class="pt-1">
-                                <h4 class="text-lg font-semibold leading-tight sm:text-xl">Connected academic
-                                    communities</h4>
-                                <p class="mt-1 text-sm leading-snug text-white/75">Six clusters linked by common spaces.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="flex gap-3 pb-0 pt-5 sm:gap-4 sm:pt-6"><span
-                                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#197461]/40 font-display text-xl sm:h-16 sm:w-16 sm:text-2xl">03</span>
-                            <div class="pt-1">
-                                <h4 class="text-lg font-semibold leading-tight sm:text-xl">A place to live and belong
-                                </h4>
-                                <p class="mt-1 text-sm leading-snug text-white/75">Residences, recreation and green
-                                    spaces.</p>
-                            </div>
-                        </li>
-                    </ol>
-                    <div class="theme_btn_wrapper"><a href="#" class="mt-7 theme_button light_mode sm:mt-8">Explore the
-                            City</a></div>
-                </aside>
-            </div>
-        </div>
-    </section>
-
-    <section aria-labelledby="city-heading" class="global_education_block pt-12 pb-16 sm:pt-16 sm:pb-20 lg:pb-28">
-        <div class="container_wrapper">
-            <div class="grid items-start gap-8 sm:gap-10 lg:grid-cols-2 lg:items-center lg:gap-16 xl:gap-24">
-                <div class="space-y-4">
-                    <span class="eyebrow_text">Our Global Education Partners</span>
-
-                    <h2 id="city-heading"
-                        class="text-4xl font-bold leading-[0.94] tracking-[-0.06em] text-[#062d44] sm:text-5xl xl:text-[58px]">
-                        The World’s Premier Universities Are Here.
+            <div class="grid gap-[35px] lg:grid-cols-[0.64fr_1fr]">
+                <!-- Our Vision -->
+                <div class="space-y-3 sm:space-y-4  rounded-[20px] bg-[#f1f6fe] p-6 sm:p-8">
+                    <p class="eyebrow_text">Our Vision</p>
+                    <h2 class="secondary_heading">
+                        Building A New Destination
+                        <br>
+                        For Global Education.
                     </h2>
-
-                    <p class="mt-4 text-base font-medium leading-[1.5] text-[#496674] sm:text-lg sm:leading-[1.42]">
-                        Bringing leading international universities and education partners to Amaravati - creating new
-                        opportunities to study, collaborate and build a global future.
+                    <p class="text-[#5c5c5c]">
+                        Bringing leading universities, ambitious students, research, skills and industry together in one
+                        place.
                     </p>
-
-                    <div class="mt-5" role="tablist" aria-label="Global education categories">
-                        <ul>
-                            <li class="border-b border-[#cbd8d5] bg-white">
-                                <button type="button" role="tab" aria-selected="true" aria-controls="education-panel"
-                                    id="universities-tab" data-tab="universities"
-                                    class="education-tab flex w-full cursor-pointer items-center justify-between gap-4 py-4 text-left text-base font-bold transition-colors hover:text-[#a97a29] focus:outline-none sm:py-6 sm:text-xl md:hover:px-2">
-                                    <span>Universities</span>
-                                    <svg class="shrink-0" xmlns="http://www.w3.org/2000/svg" width="1.5em"
-                                        height="1.5em" viewBox="0 0 24 24" aria-hidden="true">
-                                        <path d="M0 0h24v24H0z" fill="none" />
-                                        <path fill="currentColor"
-                                            d="M13.47 8.53a.75.75 0 0 1 1.06-1.06l4 4a.75.75 0 0 1 0 1.06l-4 4a.75.75 0 1 1-1.06-1.06l2.72-2.72H6.5a.75.75 0 0 1 0-1.5h9.69z" />
-                                    </svg>
-                                </button>
-                            </li>
-                            <li class="border-b border-[#cbd8d5] bg-transparent">
-                                <button type="button" role="tab" aria-selected="false" aria-controls="education-panel"
-                                    id="partners-tab" data-tab="partners"
-                                    class="education-tab flex w-full cursor-pointer items-center justify-between gap-4 py-4 text-left text-base font-bold transition-colors hover:text-[#a97a29] focus:outline-none sm:py-6 sm:text-xl md:hover:px-2">
-                                    <span>Education partners</span>
-                                    <svg class="shrink-0" xmlns="http://www.w3.org/2000/svg" width="1.5em"
-                                        height="1.5em" viewBox="0 0 24 24" aria-hidden="true">
-                                        <path d="M0 0h24v24H0z" fill="none" />
-                                        <path fill="currentColor"
-                                            d="M13.47 8.53a.75.75 0 0 1 1.06-1.06l4 4a.75.75 0 0 1 0 1.06l-4 4a.75.75 0 1 1-1.06-1.06l2.72-2.72H6.5a.75.75 0 0 1 0-1.5h9.69z" />
-                                    </svg>
-                                </button>
-                            </li>
-                            <li class="border-b border-[#cbd8d5] bg-transparent">
-                                <button type="button" role="tab" aria-selected="false" aria-controls="education-panel"
-                                    id="institutes-tab" data-tab="institutes"
-                                    class="education-tab flex w-full cursor-pointer items-center justify-between gap-4 py-4 text-left text-base font-bold transition-colors hover:text-[#a97a29] focus:outline-none sm:py-6 sm:text-xl md:hover:px-2">
-                                    <span>Research institutes</span>
-                                    <svg class="shrink-0" xmlns="http://www.w3.org/2000/svg" width="1.5em"
-                                        height="1.5em" viewBox="0 0 24 24" aria-hidden="true">
-                                        <path d="M0 0h24v24H0z" fill="none" />
-                                        <path fill="currentColor"
-                                            d="M13.47 8.53a.75.75 0 0 1 1.06-1.06l4 4a.75.75 0 0 1 0 1.06l-4 4a.75.75 0 1 1-1.06-1.06l2.72-2.72H6.5a.75.75 0 0 1 0-1.5h9.69z" />
-                                    </svg>
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <a href="#" class="mt-4 inline-flex max-w-full theme_button">Explore our Global Education
-                        Partners</a>
+                    <a href="our-vision.html" class="theme_button">
+                        Explore Vivenns
+                    </a>
                 </div>
 
-                <!-- A defined min-height prevents this absolute-image panel from collapsing below lg. -->
-                <div id="education-panel" role="tabpanel" aria-labelledby="universities-tab"
-                    class="relative min-h-[320px] overflow-hidden rounded-2xl bg-[#dfe7e5] sm:min-h-[420px] lg:min-h-[560px] xl:min-h-[620px]">
-                    <img id="feature-image" src="images/04.jpg"
-                        alt="Students walking through a modern university atrium"
-                        class="absolute inset-0 h-full w-full object-cover transition-opacity duration-300" />
-                    <div
-                        class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#041e28]/60 to-transparent px-4 pb-4 pt-20 sm:px-5 sm:pb-5">
-                        <p id="feature-caption" class="text-xs font-semibold text-white drop-shadow sm:text-sm">
-                            Central Library • Digital Knowledge Hub — concept
-                        </p>
-                    </div>
-                    <div
-                        class="absolute top-4 sm:top-auto right-4 h-[34%] w-[46%] overflow-hidden rounded-xl border-2 border-white bg-white shadow-xl sm:bottom-6 sm:right-6 sm:h-[42%] sm:w-[32%]">
-                        <img id="inset-image"
-                            src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=700&q=85"
-                            alt="Students collaborating at a university"
-                            class="h-full w-full object-cover transition-opacity duration-300" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section aria-labelledby="research-heading" class="research_innovation_block py-12 sm:py-16 lg:py-28">
-        <div class="container_wrapper">
-            <div class="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-6 xl:gap-8">
-                <div class="lg:col-span-4 lg:sticky lg:top-28">
-                    <div class="max-w-lg">
-                        <span class="eyebrow_text">Vivenns Careers</span>
-                        <h2 id="research-heading" class="mt-3 text-white!">Building Skills. Building Careers.</h2>
-                        <p class="my-3! max-w-md text-base leading-relaxed text-white/75! sm:text-lg">
-                            Skills, experience and global pathways that help people build meaningful careers.
-                        </p>
-                        <div>
-                            <a href="#"
-                                class="group inline-flex items-center gap-3 text-base font-bold text-white! transition-colors duration-300 hover:text-[#a97a29] sm:gap-4">
-                                <span>Explore Vivenns' Careers</span>
-                                <span
-                                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/40 transition-all duration-300 group-hover:border-[#a97a29] group-hover:bg-[#a97a29] sm:h-11 sm:w-11">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.8" stroke="currentColor"
-                                        class="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
-                                        aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                                    </svg>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- On tablets, the first two cards sit side by side; the final two form a second row. -->
+                <!-- The City -->
                 <div
-                    class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-8 lg:grid-cols-8 lg:grid-rows-2 lg:h-[540px]">
-                    <article
-                        class="group relative min-h-[280px] overflow-hidden rounded-2xl sm:min-h-[440px] sm:rounded-3xl lg:col-span-3 lg:row-span-2 lg:min-h-0">
-                        <img src="images/05.jpg" alt="Innovation and Research Centre"
-                            class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-
-                    </article>
-
-                    <article
-                        class="group relative min-h-[280px] overflow-hidden rounded-2xl sm:min-h-[440px] sm:rounded-3xl lg:col-span-3 lg:row-span-2 lg:min-h-0">
-                        <img src="images/06.jpg" alt="Global learning spaces"
-                            class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-[#001f19]/95 via-[#001f19]/20 to-transparent">
-                        </div>
-
-                    </article>
-
-                    <!-- The small cards are vertical on phones, paired on tablets, and return to a stack on desktop. -->
-                    <div
-                        class="grid min-h-0 gap-4 sm:col-span-2 sm:grid-cols-2 lg:col-span-2 lg:row-span-2 lg:grid-cols-1 lg:grid-rows-2">
-                        <article
-                            class="group relative min-h-[280px] overflow-hidden rounded-2xl sm:rounded-3xl lg:min-h-0">
-                            <img src="images/07.jpg" alt="Advanced laboratories and research"
-                                class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent">
-                            </div>
-
-                        </article>
-                        <article
-                            class="group relative min-h-[280px] overflow-hidden rounded-2xl sm:rounded-3xl lg:min-h-0">
-                            <img src="images/08.jpg" alt="Collaboration and entrepreneurship"
-                                class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent">
-                            </div>
-
-                        </article>
+                    class="relative grid min-h-[254px] grid-cols-1 overflow-hidden rounded-[20px] bg-[#f1f6fe] sm:grid-cols-2 lg:grid-cols-2">
+                    <div class="relative space-y-3 sm:space-y-4  p-6 sm:p-8">
+                        <p class="eyebrow_text">The City</p>
+                        <h2 class="secondary_heading">
+                            More Than A Campus.<br>
+                            A Future-ready Education<br>
+                            Ecosystem.
+                        </h2>
+                        <p class="text-[#5c5c5c]">
+                            A place where education, research, skills, industry and everyday life come together.
+                        </p>
+                        <a href="the-city.html"
+                            class="inline-flex items-center gap-1 text-sm font-semibold text-[#023161]! transition-colors hover:text-[#BFA264]">
+                            Explore Vivenns
+                            <svg class="h-3 w-3 fill-none stroke-current stroke-2" viewBox="0 0 16 16"
+                                aria-hidden="true">
+                                <path d="M2 8h11M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
                     </div>
+
+                    <img src="images/001.png" alt="Students outside a Vivenns education building"
+                        class="h-56 w-full object-cover object-center sm:h-full lg:mt-auto lg:h-[80%] lg:rounded-r-2xl"
+                        loading="lazy">
                 </div>
             </div>
         </div>
     </section>
 
-    <section aria-labelledby="belonging-heading" class="belonging_block py-12 sm:py-16 lg:py-28">
+    <section class="py-5" aria-label="Discover Vivenns">
         <div class="container_wrapper">
-            <div class="mb-10 grid gap-4 sm:mb-12 sm:gap-8 lg:mb-16 lg:grid-cols-2 lg:gap-16">
-                <div class="">
-                    <span class="eyebrow_text">the Vivenns International Education Hub</span>
-                    <h2 id="belonging-heading">Global Learning Starts Today.</h2>
+            <div class="grid gap-[35px] lg:grid-cols-[1fr_0.64fr]">
+
+                <!-- Global Education -->
+                <div
+                    class="relative grid min-h-[254px] grid-cols-1 overflow-hidden rounded-[20px] bg-[#f1f6fe] lg:grid-cols-2">
+                    <div class="relative space-y-3 sm:space-y-4  p-6 lg:p-8">
+                        <p class="eyebrow_text">Global Education</p>
+                        <h2 class="secondary_heading">
+                            The World’s Premier <br>
+                            Universities Are Here.
+                        </h2>
+                        <p class="text-[#5c5c5c]">
+                            Bringing leading international universities and education partners to Amaravati - creating
+                            new opportunities to study, collaborate and build a global future.
+                        </p>
+                        <a href="the-city.html"
+                            class="inline-flex items-center gap-1 text-sm font-semibold text-[#023161]! transition-colors hover:text-[#BFA264]">
+                            Explore Our Partners
+                            <svg class="h-3 w-3 fill-none stroke-current stroke-2" viewBox="0 0 16 16"
+                                aria-hidden="true">
+                                <path d="M2 8h11M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
+                    </div>
+
+                    <img src="images/003.png" alt="Students outside a Vivenns education building"
+                        class="h-56 w-full object-cover object-center sm:h-64 lg:mt-auto lg:h-[80%] lg:rounded-r-2xl"
+                        loading="lazy">
                 </div>
-                <p class="max-w-2xl text-base leading-relaxed text-[#466271] sm:text-lg lg:self-end">
-                    The Vivenns International Education Hub at Mangalagiri is where the journey begins.
-                </p>
-            </div>
 
-            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-                <article class="min-h-[250px] overflow-hidden rounded-2xl sm:min-h-[340px] lg:min-h-[375px]">
-                    <div class="relative h-full overflow-hidden">
-                        <img src="images/07.jpg" alt="Residences and recreational courts beside green space"
-                            class="h-full w-full object-cover transition-transform duration-700 hover:scale-105" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                    </div>
-                </article>
-
-                <article class="min-h-[250px] overflow-hidden rounded-2xl sm:min-h-[340px] lg:min-h-[375px]">
-                    <div class="relative h-full overflow-hidden">
-                        <img src="images/08.jpg" alt="Students enjoying shared learning and recreation spaces"
-                            class="h-full w-full object-cover transition-transform duration-700 hover:scale-105" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                    </div>
-                </article>
-
-                <!-- Full width on tablets so the text card retains comfortable line lengths. -->
-                <article
-                    class="relative flex min-h-[300px] flex-col overflow-hidden rounded-2xl bg-[#013162] px-5 py-6 text-white shadow-[0_8px_18px_rgba(0,73,56,.16)] sm:col-span-2 sm:min-h-[320px] sm:px-7 sm:py-7 lg:col-span-1 lg:min-h-[375px]">
-                    <svg aria-hidden="true" viewBox="0 0 400 210"
-                        class="pointer-events-none absolute bottom-[-10px] left-[-15px] w-[125%] fill-none stroke-[#76a597] stroke-[1.2] opacity-30">
-                        <path
-                            d="M0 200h400M0 166h70v-64l43-28 50 35v57h74v-38l45-33 65 39v66M18 166v-28h25v28m16 0v-47h25v47m170-38V70h48v58m-35 0V91h20v37m32-28v-40h42v40m-23-40V38h11v22" />
-                        <path d="M0 181c90-26 168-18 242 7 59 20 110 13 158-14" />
-                    </svg>
-
-                    <div class="relative flex items-start gap-4 sm:gap-5">
-
-                        <h3 class="font-display text-2xl leading-[.93] tracking-[-.04em] sm:text-3xl">A place to learn.
-                            <br>
-                            A place to belong.
-                        </h3>
+                <!-- Careers -->
+                <div class="grid overflow-hidden rounded-[20px] bg-[#f1f6fe] grid-cols-[1fr_0.48fr]">
+                    <div class="space-y-3 sm:space-y-4  p-6 lg:pr-0">
+                        <p class="eyebrow_text">Careers</p>
+                        <h2 class="secondary_heading">
+                            Building Skills. <br>
+                            Building Careers.
+                        </h2>
+                        <p class="text-[#5c5c5c]">
+                            Bringing leading universities, ambitious students, research, skills and industry together in
+                            one place.
+                        </p>
+                        <a href="the-city.html"
+                            class="inline-flex items-center gap-1 text-sm font-semibold text-[#023161]! transition-colors hover:text-[#BFA264]">
+                            Explore Vivenns Careers
+                            <svg class="h-3 w-3 fill-none stroke-current stroke-2" viewBox="0 0 16 16"
+                                aria-hidden="true">
+                                <path d="M2 8h11M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
                     </div>
 
-                    <div class="relative mt-5 flex items-center gap-2 text-sm font-medium text-white/85">
-                        <svg viewBox="0 0 24 24" class="h-6 w-6 shrink-0 fill-[#f47736] sm:h-7 sm:w-7"
-                            aria-hidden="true">
-                            <path
-                                d="M12 2a7 7 0 0 0-7 7c0 5.4 7 13 7 13s7-7.6 7-13a7 7 0 0 0-7-7Zm0 10.2A3.2 3.2 0 1 1 12 5.8a3.2 3.2 0 0 1 0 6.4Z" />
-                        </svg>
-                        <span>Mangalagiri, Andhra Pradesh</span>
-                    </div>
-
-                    <div class="theme_btn_wrapper relative mt-auto pt-6">
-                        <a href="#" class="theme_button light_mode">Explore the Mangalagiri Hub</a>
-                    </div>
-                </article>
+                    <img src="images/002.png" alt="Students outside a Vivenns education building"
+                        class="w-full object-contain object-bottom  mt-auto lg:h-[75%] lg:rounded-r-2xl" loading="lazy">
+                </div>
             </div>
         </div>
     </section>
 
-    <section aria-labelledby="build-heading" class="build_block py-12 sm:py-16 lg:py-20">
-        <div class="container_wrapper mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <!-- Section Header -->
-            <div class="mx-auto mb-8 max-w-3xl sm:mb-10 lg:mb-12">
-                <div class="space-y-4 text-center">
-                    <span
-                        class="eyebrow_text text-xs font-semibold uppercase tracking-wider text-[#07544e]">Partnerships</span>
-                    <h2 id="build-heading"
-                        class="text-3xl font-bold tracking-tight text-[#173b38] sm:text-4xl text-balance">
-                        Build with us.
-                    </h2>
-                    <p class="text-base leading-relaxed text-[#4b5a5e] sm:text-lg text-pretty">
-                        A platform for universities, education partners, industry and institutions to shape what comes
-                        next.
-                    </p>
+    <section class="py-5" aria-label="Discover Vivenns">
+        <div class="container_wrapper">
+            <div class="grid gap-[35px] lg:grid-cols-[0.90fr_0.74fr]">
+
+                <!-- The City -->
+                <div class="relative grid min-h-[254px] grid-cols-1 overflow-hidden rounded-[20px] bg-[#f1f6fe] bg-cover bg-center bg-no-repeat lg:grid-cols-2"
+                    style="background-image: url(images/004.png);">
+
+                    <div class="relative z-10 space-y-3 sm:space-y-4  p-6 sm:p-8">
+                        <p class="eyebrow_text">The City</p>
+                        <h2 class="secondary_heading">
+                            Global Learning <br>
+                            Starts Today.
+                        </h2>
+                        <p class="text-[#5c5c5c]">
+                            The Vivenns International Education Hub at Mangalagiri is where the journey begins.
+                        </p>
+                        <a href="the-city.html"
+                            class="inline-flex items-center gap-1 text-sm font-semibold text-[#023161]! transition-colors hover:text-[#BFA264]">
+                            Explore the Mangalagiri Hub
+                            <svg class="h-3 w-3 fill-none stroke-current stroke-2" viewBox="0 0 16 16"
+                                aria-hidden="true">
+                                <path d="M2 8h11M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
+                    </div>
+
+                    <!-- Keeps the original desktop spacing for the background artwork -->
+                    <div class="hidden lg:block lg:mt-auto lg:h-[80%] lg:w-full lg:rounded-r-2xl"></div>
                 </div>
-            </div>
 
-            <!-- Cards List -->
-            <ul role="list" class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4 xl:gap-6">
-                <!-- Card 1: Universities & educators -->
-                <li
-                    class="group relative flex min-h-[220px] flex-col rounded-2xl border border-[#dce4df] bg-white p-5  motion-safe:transition motion-safe:duration-300 motion-safe:hover:-translate-y-1 hover:border-[#0a5a51]/40  sm:min-h-[240px] sm:p-6">
-                    <div class="mb-5 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#edf6f1]"
-                        aria-hidden="true">
-                        <svg aria-hidden="true" viewBox="0 0 48 48"
-                            class="h-8 w-8 fill-none stroke-[#07544e] stroke-[2.2]">
-                            <path d="m4 17 20-11 20 11-20 11L4 17Z" />
-                            <path d="M12 21v11c7 7 17 7 24 0V21M39 19v12" />
-                        </svg>
-                    </div>
-                    <div class="flex flex-1 flex-col">
-                        <h3 class="text-[17px] font-bold leading-snug text-[#173b38] text-balance">
-                            <a href="#"
-                                class="rounded-lg after:absolute after:inset-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#07544e]">
-                                Universities &amp; educators
-                            </a>
-                        </h3>
-                        <p class="mt-2 text-sm font-normal leading-relaxed text-[#4b5a5e] text-pretty">
-                            Explore academic partnerships and global learning.
-                        </p>
-                        <span class="mt-auto pt-5 flex items-center text-sm font-bold text-[#07544e]"
-                            aria-hidden="true">
-                            Learn more
-                            <span
-                                class="ml-1 motion-safe:transition-transform motion-safe:group-hover:translate-x-1">→</span>
-                        </span>
-                    </div>
-                </li>
+                <!-- Partnership -->
+                <div class="rounded-[20px] bg-[#f1f6fe] bg-cover bg-right bg-no-repeat p-6 sm:p-8 "
+                    style="background-image: url(images/005.png); background-size: 60%;">
 
-                <!-- Card 2: Research & industry -->
-                <li
-                    class="group relative flex min-h-[220px] flex-col rounded-2xl border border-[#dce4df] bg-white p-5  motion-safe:transition motion-safe:duration-300 motion-safe:hover:-translate-y-1 hover:border-[#0a5a51]/40  sm:min-h-[240px] sm:p-6">
-                    <div class="mb-5 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/80"
-                        aria-hidden="true">
-                        <svg viewBox="0 0 48 48" class="h-8 w-8 fill-none" aria-hidden="true">
-                            <path d="M0 0h48v48H0z" fill="none" />
-                            <path fill="#07544e" fill-rule="evenodd"
-                                d="M21 20.132a8.5 8.5 0 0 1 8.176 13.63l1.306 1.306a2 2 0 0 1 1.932.518l5 5a2 2 0 1 1-2.828 2.828l-5-5a2 2 0 0 1-.518-1.932l-1.306-1.306A8.46 8.46 0 0 1 22.5 37a8.6 8.6 0 0 1-1.5-.132V39a5.002 5.002 0 0 1-10 0V12.688a1.5 1.5 0 0 1 1-1.415V10h-1a1 1 0 0 1-1-1V5q0-.053.005-.102A1 1 0 0 1 11 4h10a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-1v1.273a1.5 1.5 0 0 1 1 1.415zM14 10h4v1.273a2 2 0 0 0 1 1.732V18h-6v-4.995a2 2 0 0 0 1-1.732zm-1 10v19a3.002 3.002 0 0 0 6 0v-2.752a8.5 8.5 0 0 1-5-7.748a8.5 8.5 0 0 1 5-7.748V20zM12 8h8V6h-8zm9 14.174a6.495 6.495 0 0 0-5 6.326a6.495 6.495 0 0 0 6.5 6.5a6.47 6.47 0 0 0 3.835-1.251a6.5 6.5 0 0 0 1.414-1.414A6.5 6.5 0 0 0 23 22.019V33.5h-2z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    <div class="flex flex-1 flex-col">
-                        <h3 class="text-[17px] font-bold leading-snug text-[#173b38] text-balance">
-                            <a href="#"
-                                class="rounded-lg after:absolute after:inset-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#07544e]">
-                                Research &amp; industry
-                            </a>
-                        </h3>
-                        <!-- Updated text color for WCAG AA compliance against #e8f1e9 -->
-                        <p class="mt-2 text-sm font-normal leading-relaxed text-[#334c44] text-pretty">
-                            Connect talent, ideas and practical innovation.
+                    <div class=" space-y-3 sm:space-y-4  max-w-[70%]">
+                        <p class="eyebrow_text">Partnership</p>
+                        <h2 class="secondary_heading">
+                            Build With Us.
+                        </h2>
+                        <p class="text-[#5c5c5c]">
+                            Whether you want to learn, teach, partner, innovate or build, there is a place for you in
+                            the Vivenns ecosystem.
                         </p>
-                        <span class="mt-auto pt-5 flex items-center text-sm font-bold text-[#07544e]"
-                            aria-hidden="true">
-                            Learn more
-                            <span
-                                class="ml-1 motion-safe:transition-transform motion-safe:group-hover:translate-x-1">→</span>
-                        </span>
-                    </div>
-                </li>
-
-                <!-- Card 3: Investors & development partners -->
-                <li
-                    class="group relative flex min-h-[220px] flex-col rounded-2xl border border-[#dce4df] bg-white p-5  motion-safe:transition motion-safe:duration-300 motion-safe:hover:-translate-y-1 hover:border-[#0a5a51]/40  sm:min-h-[240px] sm:p-6">
-                    <div class="mb-5 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/70"
-                        aria-hidden="true">
-                        <svg aria-hidden="true" viewBox="0 0 48 48"
-                            class="h-8 w-8 fill-none stroke-[#9b3700] stroke-[2.4]">
-                            <rect x="6" y="29" width="8" height="12" rx="1" />
-                            <rect x="20" y="20" width="8" height="21" rx="1" />
-                            <rect x="34" y="8" width="8" height="33" rx="1" />
-                        </svg>
-                    </div>
-                    <div class="flex flex-1 flex-col">
-                        <h3 class="text-[17px] font-bold leading-snug text-[#492612] text-balance">
-                            <a href="#"
-                                class="rounded-lg after:absolute after:inset-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9b3700]">
-                                Investors &amp; development partners
-                            </a>
-                        </h3>
-                        <!-- Updated text color for WCAG AA compliance against #ffdfc2 -->
-                        <p class="mt-2 text-sm font-normal leading-relaxed text-[#573522] text-pretty">
-                            Discuss opportunities to help shape the education ecosystem.
-                        </p>
-                        <span class="mt-auto pt-5 flex items-center text-sm font-bold text-[#07544e]"
-                            aria-hidden="true">
-                            Learn more
-                            <span
-                                class="ml-1 motion-safe:transition-transform motion-safe:group-hover:translate-x-1">→</span>
-                        </span>
-                    </div>
-                </li>
-
-                <!-- Card 4: Institutions & ecosystem partners -->
-                <li
-                    class="group relative flex min-h-[220px] flex-col rounded-2xl border border-[#dce4df] bg-white p-5  motion-safe:transition motion-safe:duration-300 motion-safe:hover:-translate-y-1 hover:border-[#0a5a51]/40 sm:min-h-[240px] sm:p-6">
-                    <div class="mb-5 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#edf6f1]"
-                        aria-hidden="true">
-                        <svg aria-hidden="true" viewBox="0 0 48 48"
-                            class="h-8 w-8 fill-none stroke-[#07544e] stroke-[2.2]">
-                            <circle cx="24" cy="11" r="5" />
-                            <circle cx="10" cy="23" r="4" />
-                            <circle cx="38" cy="23" r="4" />
-                            <path
-                                d="M14 40c0-7 4-12 10-12s10 5 10 12M2 38c0-5.7 3-10 8-10 3.3 0 6.2 1.8 7.4 4.7M46 38c0-5.7-3-10-8-10-3.3 0-6.2 1.8-7.4 4.7" />
-                        </svg>
-                    </div>
-                    <div class="flex flex-1 flex-col">
-                        <h3 class="text-[17px] font-bold leading-snug text-[#173b38] text-balance">
-                            <a href="#"
-                                class="rounded-lg after:absolute after:inset-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#07544e]">
-                                Institutions &amp; ecosystem partners
-                            </a>
-                        </h3>
-                        <p class="mt-2 text-sm font-normal leading-relaxed text-[#4b5a5e] text-pretty">
-                            Support the places and services that connect the city.
-                        </p>
-                        <span class="mt-auto pt-5 flex items-center text-sm font-bold text-[#07544e]"
-                            aria-hidden="true">
-                            Learn more
-                            <span
-                                class="ml-1 motion-safe:transition-transform motion-safe:group-hover:translate-x-1">→</span>
-                        </span>
-                    </div>
-                </li>
-            </ul>
-
-            <!-- Bottom CTA Banner -->
-            <aside aria-labelledby="cta-heading"
-                class="relative mt-8 overflow-hidden rounded-2xl bg-[#013162] px-5 py-8 text-white shadow-lg sm:mt-10 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
-                <div class="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full border-[32px] border-white/5"
-                    aria-hidden="true"></div>
-                <div class="pointer-events-none absolute -bottom-24 left-1/3 h-48 w-48 rounded-full bg-[#0b735d]/40 blur-2xl"
-                    aria-hidden="true"></div>
-                <div class="relative flex flex-col gap-7 lg:flex-row lg:items-center lg:justify-between">
-                    <div class="max-w-2xl space-y-4">
-                        <span
-                            class="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium uppercase tracking-wider text-white backdrop-blur-md">
-                            Partner with us
-                        </span>
-                        <h3 id="cta-heading"
-                            class="text-2xl font-bold tracking-tight text-white sm:text-3xl text-balance">
-                            Help shape the future of education.
-                        </h3>
-                        <p class="text-emerald-100 sm:text-lg text-pretty">
-                            Join a long-term vision that connects people, ideas and institutions to create meaningful
-                            learning opportunities.
-                        </p>
-                    </div>
-                    <div class="theme_btn_wrapper shrink-0">
-                        <a href="#"
-                            class="theme_button light_mode inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-bold text-[#013162] shadow transition hover:bg-emerald-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
-                            Discuss partnership opportunities
+                        <a href="the-city.html" class="theme_button">
+                            Partner With Us
                         </a>
                     </div>
                 </div>
-            </aside>
-        </div>
-    </section>
 
-    <section aria-labelledby="making-heading" class="making_block pt-12 sm:pt-16  lg:pt-28">
-        <div class="container_wrapper">
-            <div class="mb-10 grid gap-6 sm:mb-12 lg:grid-cols-2 lg:items-end lg:gap-10">
-                <div class="space-y-4">
-                    <span class="eyebrow_text">Our Vision</span>
-                    <h2 id="making-heading">A city in the making.</h2>
-                    <p class="max-w-2xl text-base leading-relaxed text-[#626e71] sm:text-lg">
-                        Follow the partnerships, milestones and ideas bringing Vivenns International Education City to
-                        life.
-                    </p>
-                </div>
-                <div class="lg:text-right">
-                    <a href="/vision" class="theme_button">See What’s Happening</a>
-                </div>
-            </div>
-
-            <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-                <a href="#"
-                    class="group flex min-h-full flex-col overflow-hidden rounded-2xl transition duration-300 hover:-translate-y-1 hover:border-[#0a5a51]/25 focus:outline-none focus:ring-4 focus:ring-[#0a5a51]/15">
-                    <div class="relative h-60 overflow-hidden sm:h-72 lg:h-80">
-                        <img src="images/09.jpg" alt="Aerial master plan of a green urban campus"
-                            class="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#003f35]/55 via-transparent to-transparent">
-                        </div>
-                        <span
-                            class="absolute bottom-4 left-4 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium uppercase text-white backdrop-blur-md">Campus</span>
-                    </div>
-                    <div class="flex flex-1 flex-col p-5 sm:p-6">
-                        <h3 class="text-xl font-bold tracking-[-0.02em] text-[#173b38]">Master plan</h3>
-                        <p class="mt-2 text-sm font-medium leading-relaxed text-[#617681]">Explore the long-term vision
-                            for a connected, green and inspiring campus.</p>
-                        <span
-                            class="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-bold text-[#a97a29]">Explore
-                            the vision <span
-                                class="flex h-7 w-7 items-center justify-center rounded-full bg-[#fff0e7] text-lg transition duration-300 group-hover:translate-x-1">→</span></span>
-                    </div>
-                </a>
-
-                <a href="#"
-                    class="group flex min-h-full flex-col overflow-hidden rounded-2xl transition duration-300 hover:-translate-y-1 hover:border-[#0a5a51]/25  focus:outline-none focus:ring-4 focus:ring-[#0a5a51]/15">
-                    <div class="relative h-60 overflow-hidden sm:h-72 lg:h-80">
-                        <img src="images/10.jpg" alt="A shared academic and social learning space"
-                            class="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#003f35]/55 via-transparent to-transparent">
-                        </div>
-                        <span
-                            class="absolute bottom-4 left-4 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium uppercase text-white backdrop-blur-md">Collaboration</span>
-                    </div>
-                    <div class="flex flex-1 flex-col p-5 sm:p-6">
-                        <h3 class="text-xl font-bold tracking-[-0.02em] text-[#173b38]">Partnerships</h3>
-                        <p class="mt-2 text-sm font-medium leading-relaxed text-[#617681]">Discover opportunities to
-                            collaborate with people and organisations.</p>
-                        <span class="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-bold text-[#a97a29]">Work
-                            with us <span
-                                class="flex h-7 w-7 items-center justify-center rounded-full bg-[#fff0e7] text-lg transition duration-300 group-hover:translate-x-1">→</span></span>
-                    </div>
-                </a>
-
-                <!-- On tablets, this final card spans both columns to avoid a narrow orphan card. -->
-                <a href="#"
-                    class="group flex min-h-full flex-col overflow-hidden rounded-2xl transition duration-300 hover:-translate-y-1 hover:border-[#0a5a51]/25  focus:outline-none focus:ring-4 focus:ring-[#0a5a51]/15 sm:col-span-2 lg:col-span-1">
-                    <div class="relative h-60 overflow-hidden sm:h-72 lg:h-80">
-                        <img src="images/12.jpg" alt="Research spaces within a lush landscape"
-                            class="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#003f35]/55 via-transparent to-transparent">
-                        </div>
-                        <span
-                            class="absolute bottom-4 left-4 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium uppercase text-white backdrop-blur-md">Innovation</span>
-                    </div>
-                    <div class="flex flex-1 flex-col p-5 sm:p-6">
-                        <h3 class="text-xl font-bold tracking-[-0.02em] text-[#173b38]">Ideas</h3>
-                        <p class="mt-2 text-sm font-medium leading-relaxed text-[#617681]">See how new ideas can
-                            reimagine learning and research environments.</p>
-                        <span class="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-bold text-[#a97a29]">Read
-                            our ideas <span
-                                class="flex h-7 w-7 items-center justify-center rounded-full bg-[#fff0e7] text-lg transition duration-300 group-hover:translate-x-1">→</span></span>
-                    </div>
-                </a>
             </div>
         </div>
     </section>
 
-    <main class="experience_block hidden md:block">
-        <section class="map-stage" aria-label="Interactive campus map">
-            <canvas id="campusMap" aria-hidden="true"></canvas>
-            <div class="place-layer" id="placeLayer" aria-label="Campus locations"></div>
-
-
-        </section>
-    </main>
-
-    <section aria-labelledby="next-heading" class="py-12 sm:py-20 lg:py-28">
+    <section class="py-5" aria-label="Discover Vivenns">
         <div class="container_wrapper">
-            <div class="overflow-hidden rounded-2xl sm:rounded-3xl">
-                <div class="grid lg:grid-cols-[1fr_1.05fr]">
-                    <!-- Content -->
-                    <div
-                        class="relative flex flex-col justify-center  md:pr-5 py-10 sm:pr-10 sm:py-14 lg:pr-14 lg:py-16">
-                        <div class="relative">
-                            <span class="eyebrow_text">Partner With Us</span>
-                            <h2 id="next-heading"
-                                class="mt-5 max-w-xl font-display text-4xl font-semibold leading-[0.95] tracking-[-0.055em] text-[#173b38] sm:text-5xl lg:text-6xl">
-                                Be part of what’s next.
-                            </h2>
-                            <p class="mt-5 max-w-lg text-base font-medium leading-relaxed text-[#46616d] sm:text-lg">
-                                Whether you want to learn, teach, partner, innovate, or build, there is a place for you
-                                in the Vivenns ecosystem.
-                            </p>
-                            <div class="mt-8 flex flex-col md:flex-row flex-wrap   gap-3 sm:items-center">
-                                <a href="#" class="theme_button  text-center ">Explore Vivenns</a>
-                                <a href="#"
-                                    class="theme_button light_mode  text-center hover:border-[#a97a29]! ">Partner
-                                    with us</a>
-                            </div>
+            <div class="grid gap-[35px] lg:grid-cols-[0.60fr_0.64fr]">
+
+                <!-- The Journey -->
+                <div class="relative min-h-[254px] overflow-hidden rounded-[20px] bg-[#f1f6fe] bg-no-repeat
+                        bg-[right_bottom] bg-[length:70%] sm:bg-[length:60%] lg:bg-[length:55%]"
+                    style="background-image: url(images/006.png);">
+
+                    <div class="relative z-10 max-w-full space-y-3 sm:space-y-4  p-6 sm:max-w-[75%] sm:p-8 lg:max-w-[65%]">
+                        <p class="eyebrow_text">The Journey</p>
+                        <h2 class="secondary_heading">
+                            A City In <br>
+                            The Making.
+                        </h2>
+                        <p class="text-[#5c5c5c]">
+                            Follow the partnerships, milestones and ideas bringing Vivenns International Education City
+                            to life.
+                        </p>
+                        <a href="the-city.html" class="theme_button">
+                            See What's Happening
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Our Vision -->
+                <div class="min-h-[254px] rounded-[20px] bg-[#003D7D] bg-bottom bg-no-repeat p-6 sm:p-8
+                        bg-[length:130%] sm:bg-[length:110%] lg:bg-[length:100%]"
+                    style="background-image: url(images/007.png);">
+
+                    <div class="max-w-full space-y-3 sm:space-y-4  sm:max-w-[90%] lg:max-w-[80%]">
+                        <h2 class="text-2xl font-normal text-white!">
+                            Be Part Of What's Next.
+                        </h2>
+                        <p class="text-[#FFFFFF]">
+                            Whether you want to learn, teach, partner, innovate or build, there is a place for you in
+                            the Vivenns ecosystem.
+                        </p>
+
+                        <div class="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
+                            <a href="our-vision.html" class="theme_button light_mode">
+                                Explore Vivenns
+                            </a>
+                            <a href="our-vision.html" class="theme_button light_line">
+                                Partner with us
+                                <svg class="h-3 w-3 fill-none stroke-current stroke-2" viewBox="0 0 16 16"
+                                    aria-hidden="true">
+                                    <path d="M2 8h11M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </a>
                         </div>
                     </div>
-
-                    <!-- The min-height keeps the absolute-positioned image visible below lg. -->
-                    <figure
-                        class="group relative min-h-[300px] overflow-hidden rounded-3xl sm:min-h-[420px] lg:min-h-0">
-                        <img src="images/13.jpg" alt="Architectural vision for a green education city"
-                            class="absolute inset-0 h-full w-full object-cover" />
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-[#062b27]/75 via-[#062b27]/10 to-transparent">
-                        </div>
-                        <div class="absolute inset-x-0 bottom-0 p-4 sm:p-8">
-                            <div
-                                class="max-w-xs rounded-xl border border-white/20 bg-white/10 p-4 text-white backdrop-blur-md sm:rounded-2xl">
-                                <span class="text-xs font-bold uppercase tracking-[0.14em] text-[#c8efe0]">The Vivenns
-                                    vision</span>
-                                <figcaption class="mt-1 text-sm font-medium leading-relaxed text-white/90">
-                                    A connected education ecosystem designed for ideas, opportunity and impact.
-                                </figcaption>
-                            </div>
-                        </div>
-                    </figure>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <footer class="footer_block overflow-hidden bg-[#013162] pt-12 text-white sm:pt-16 lg:pt-24">
+    <footer class="py-5">
         <div class="container_wrapper">
-            <div
-                class="grid gap-10 pb-12 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-12 sm:pb-16 lg:grid-cols-[1.5fr_1fr_1fr_1.15fr] lg:gap-12 lg:pb-20">
-                <!-- Brand spans both tablet columns, then returns to its desktop column. -->
-                <div class="max-w-sm sm:col-span-2 lg:col-span-1">
-                    <a href="#" class="footer_logo inline-block">
-                        <img src="images/VivennsGroupLogo_light.png" alt="Vivenns Logo"
-                            class="h-auto max-w-[180px] sm:max-w-[220px]">
+            <div class="rounded-[20px] bg-[#f1f6fe] px-5 py-2 sm:px-6">
+                <!-- Main footer row -->
+                <div class="flex flex-col gap-5 py-4 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
+                    <a href="index.html" class="shrink-0" aria-label="Vivenns home">
+                        <img src="images/vivennslogo.png" alt="Vivenns" class="block h-auto w-[150px] sm:w-[180px]">
                     </a>
-                    <p class="mt-3 text-base font-semibold text-white">International Education City</p>
-                    <p class="mt-3 text-sm leading-relaxed text-white/70">A connected future for education, research,
-                        skills and opportunity.</p>
+
+                    <nav aria-label="Footer navigation">
+                        <ul class="flex flex-col items-start gap-3 p-0 text-sm font-medium text-[#003D7D]!
+                               sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6 sm:gap-y-3">
+                            <li class="list-none">
+                                <a href="our-vision.html"
+                                    class="transition-colors text-sm hover:text-[#ad7d17] focus:outline-none focus-visible:text-[#ad7d17]">
+                                    Our Vision
+                                </a>
+                            </li>
+                            <li class="list-none">
+                                <a href="global-education.html"
+                                    class="transition-colors  text-sm hover:text-[#ad7d17] focus:outline-none focus-visible:text-[#ad7d17]">
+                                    Education
+                                </a>
+                            </li>
+                            <li class="list-none">
+                                <a href="careers.html"
+                                    class="transition-colors  text-sm hover:text-[#ad7d17] focus:outline-none focus-visible:text-[#ad7d17]">
+                                    Careers
+                                </a>
+                            </li> 
+                            <li class="list-none">
+                                <a href="partners.html"
+                                    class="transition-colors text-sm hover:text-[#ad7d17] focus:outline-none focus-visible:text-[#ad7d17]">
+                                    Partner With Us
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
 
-                <nav aria-label="Explore">
-                    <h3 class="text-sm font-bold uppercase tracking-[0.12em] text-[#a8d4c2]">Explore</h3>
-                    <ul class="mt-4 space-y-1 text-sm text-white/80 sm:mt-5 sm:space-y-2">
-                        <li><a href="#" class="inline-block py-1 transition text-white! hover:text-[#ff9b68]!">The
-                                Vision</a></li>
-                        <li><a href="#" class="inline-block py-1 transition text-white! hover:text-[#ff9b68]!">The City
-                                &amp; Master Plan</a></li>
-                        <li><a href="#" class="inline-block py-1 transition text-white! hover:text-[#ff9b68]!">Global
-                                Education</a></li>
-                        <li><a href="#" class="inline-block py-1 transition text-white! hover:text-[#ff9b68]!">Research
-                                &amp; Innovation</a></li>
-                        <li><a href="#" class="inline-block py-1 transition text-white! hover:text-[#ff9b68]!">Student
-                                Life</a></li>
-                        <li><a href="#" class="inline-block py-1 transition text-white! hover:text-[#ff9b68]!">Skills
-                                &amp; Careers</a></li>
-                    </ul>
-                </nav>
+                <div class="my-4 h-px bg-[#dce7f5]"></div>
 
-                <nav aria-label="Get involved">
-                    <h3 class="text-sm font-bold uppercase tracking-[0.12em] text-[#a8d4c2]">Get involved</h3>
-                    <ul class="mt-4 space-y-1 text-sm text-white/80 sm:mt-5 sm:space-y-2">
-                        <li><a href="#"
-                                class="inline-block py-1 transition text-white! hover:text-[#ff9b68]!">Universities
-                                &amp; Educators</a></li>
-                        <li><a href="#" class="inline-block py-1 transition text-white! hover:text-[#ff9b68]!">Research
-                                &amp; Industry</a></li>
-                        <li><a href="#" class="inline-block py-1 transition text-white! hover:text-[#ff9b68]!">Investors
-                                &amp; Development</a></li>
-                        <li><a href="#"
-                                class="inline-block py-1 transition text-white! hover:text-[#ff9b68]!">Institutions
-                                &amp; Partners</a></li>
-                        <li><a href="#"
-                                class="inline-block py-1 transition text-white! hover:text-[#ff9b68]!">Mangalagiri
-                                Hub</a></li>
-                        <li><a href="#"
-                                class="inline-block py-1 transition text-white! hover:text-[#ff9b68]!">Partnership
-                                Enquiries</a></li>
-                    </ul>
-                </nav>
+                <!-- Legal footer row -->
+                <div class="flex flex-col gap-4 py-4 text-sm leading-normal text-[#5f6368]
+                        lg:flex-row lg:items-center lg:justify-between lg:leading-none">
+                    <p class="m-0">©2026 Vivenns. All Rights Reserved</p>
 
-                <nav aria-label="Stay connected">
-                    <h3 class="text-sm font-bold uppercase tracking-[0.12em] text-[#a8d4c2]">Stay connected</h3>
-                    <ul class="mt-4 space-y-1 text-sm text-white/80 sm:mt-5 sm:space-y-2">
-                        <li><a href="#" class="inline-block py-1 transition text-white! hover:text-[#ff9b68]!">News
-                                &amp; Updates</a></li>
-                        <li><a href="#" class="inline-block py-1 transition text-white! hover:text-[#ff9b68]!">General
-                                Enquiries</a></li>
-                        <li><a href="#" class="inline-block py-1 transition text-white! hover:text-[#ff9b68]!">Education
-                                Enquiries</a></li>
-                        <li><a href="#" class="inline-block py-1 transition text-white! hover:text-[#ff9b68]!">Contact
-                                the Team</a></li>
-                    </ul>
-                </nav>
-            </div>
-
-            <div
-                class="grid gap-4 border-t border-white/15 py-6 text-xs font-medium leading-relaxed text-white/60 sm:py-8 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
-                <p class="mb-0!">© 2026 Vivenns. All rights reserved.</p>
-                <div class="flex flex-wrap gap-x-5 gap-y-2 lg:justify-center">
-                    <a href="#" class="transition text-white! hover:text-[#ff9b68]!">Privacy Policy</a>
-                    <a href="#" class="transition text-white! hover:text-[#ff9b68]!">Terms of Use</a>
-                    <a href="#top" class="transition text-white! hover:text-[#ff9b68]!">Back to top ↑</a>
+                    <nav aria-label="Legal navigation">
+                        <ul class="flex flex-row items-start gap-3 p-0 font-medium text-[#003D7D]!
+                               sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6 sm:gap-y-3">
+                            <li class="list-none">
+                                <a href="privacy-policy.html"
+                                    class="transition-colors text-xs md:text-sm hover:text-[#ad7d17] focus:outline-none focus-visible:text-[#ad7d17]">
+                                    Privacy Policy
+                                </a>
+                            </li>
+                            <li class="list-none">
+                                <a href="terms-of-use.html"
+                                    class="transition-colors text-xs md:text-sm hover:text-[#ad7d17] focus:outline-none focus-visible:text-[#ad7d17]">
+                                    Terms Of Use
+                                </a>
+                            </li>
+                            <li class="list-none">
+                                <a href="#siteHeader"
+                                    class="transition-colors text-xs md:text-sm hover:text-[#ad7d17] focus:outline-none focus-visible:text-[#ad7d17]">
+                                    Back To Top ↑
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
-                <p class="lg:text-right">Figures reflect the May 2026 master plan concept.</p>
             </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
-    <script src="https://unpkg.com/lenis@1.3.11/dist/lenis.min.js"></script>
+
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
+        const menuToggle = document.getElementById("menuToggle");
+        const mobileMenu = document.getElementById("mobileMenu");
+        const menuOpenIcon = document.getElementById("menuOpenIcon");
+        const menuCloseIcon = document.getElementById("menuCloseIcon");
+        const menuToggleText = document.getElementById("menuToggleText");
 
-            const lenis = new Lenis({
-                duration: 1.1,
-                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                orientation: "vertical",
-                gestureOrientation: "vertical",
-                smoothWheel: true,
-                smoothTouch: false,
-                wheelMultiplier: 1,
-                touchMultiplier: 1,
-                infinite: false
-            });
+        function setMobileMenu(open) {
+            mobileMenu.classList.toggle("hidden", !open);
+            menuToggle.setAttribute("aria-expanded", String(open));
+            menuToggleText.textContent = open
+                ? "Close navigation menu"
+                : "Open navigation menu";
 
-            // Animation frame
-            function raf(time) {
-                lenis.raf(time);
-                requestAnimationFrame(raf);
-            }
-
-            requestAnimationFrame(raf);
-
-
-            // Anchor link scrolling
-            document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-
-                anchor.addEventListener("click", function (e) {
-
-                    const target = document.querySelector(this.getAttribute("href"));
-
-                    if (!target) return;
-
-                    e.preventDefault();
-
-                    lenis.scrollTo(target, {
-                        offset: -80,
-                        duration: 1.2
-                    });
-
-                });
-
-            });
-
-        });
-    </script>
-    <script>
-
-
-        const header = document.querySelector(".site_header");
-        const toggle = document.getElementById('menuToggle');
-        const menu = document.getElementById('mobileMenu');
-
-        function closeMenu() {
-            toggle.setAttribute('aria-expanded', 'false');
-            menu.classList.remove('is-open');
+            menuOpenIcon.classList.toggle("opacity-0", open);
+            menuCloseIcon.classList.toggle("opacity-0", !open);
+            menuCloseIcon.classList.toggle("rotate-0", open);
+            menuCloseIcon.classList.toggle("rotate-[-45deg]", !open);
         }
 
-        toggle.addEventListener('click', () => {
-            const isOpen = toggle.getAttribute('aria-expanded') === 'true';
-            toggle.setAttribute('aria-expanded', String(!isOpen));
-            menu.classList.toggle('is-open', !isOpen);
+        menuToggle.addEventListener("click", () => {
+            const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+            setMobileMenu(!isOpen);
         });
 
-        menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
-        window.addEventListener('resize', () => { if (window.innerWidth >= 1024) closeMenu(); });
-        window.addEventListener('scroll', () => header.classList.toggle('sticky_header', window.scrollY > 20), { passive: true });
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 50) {
-                header.classList.add("sticky_header");
-            } else {
-                header.classList.remove("sticky_header");
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                setMobileMenu(false);
             }
         });
-        const tabContent = {
-            universities: {
-                image: 'images/04.jpg',
-                inset: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=700&q=85',
-                alt: 'Students walking through a modern university atrium',
-                insetAlt: 'Students collaborating at a university',
-                caption: 'Central Library • Digital Knowledge Hub — concept'
-            },
 
-            partners: {
-                image: 'images/05.jpg',
-                inset: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=700&q=85',
-                alt: 'A modern learning campus shared by education partners',
-                insetAlt: 'A collaborative education session',
-                caption: 'A connected network of specialist learning partners'
-            },
-
-            institutes: {
-                image: 'images/06.jpg',
-                inset: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=700&q=85',
-                alt: 'Researchers working in a laboratory',
-                insetAlt: 'Researcher analyzing results in a lab',
-                caption: 'Research that connects discovery to real-world impact'
+        window.addEventListener("resize", () => {
+            if (window.innerWidth >= 1280) {
+                setMobileMenu(false);
             }
-        };
-
-        const tabs = document.querySelectorAll('.education-tab');
-        const featureImage = document.getElementById('feature-image');
-        const insetImage = document.getElementById('inset-image');
-        const caption = document.getElementById('feature-caption');
-        const panel = document.getElementById('education-panel');
-
-        let activeTab = null;
-        let changeTimeout = null;
-
-        function showTab(name, tab) {
-            // Don't reload if this tab is already active
-            if (activeTab === name) return;
-
-            const data = tabContent[name];
-
-            if (!data) return;
-
-            activeTab = name;
-
-            // Update tab active state
-            tabs.forEach((item) => {
-                const isActive = item === tab;
-
-                item.setAttribute(
-                    'aria-selected',
-                    isActive ? 'true' : 'false'
-                );
-
-                item.classList.toggle('bg-white', isActive);
-
-                item.classList.toggle(
-                    'shadow-[0_1px_2px_rgba(1,52,49,.06)]',
-                    isActive
-                );
-            });
-
-            // Update accessibility relationship
-            panel.setAttribute('aria-labelledby', tab.id);
-
-            // Clear previous timeout
-            if (changeTimeout) {
-                clearTimeout(changeTimeout);
-            }
-
-            // Fade images out
-            featureImage.classList.add('opacity-0');
-            insetImage.classList.add('opacity-0');
-
-            // Change images after fade-out
-            changeTimeout = window.setTimeout(() => {
-
-                featureImage.src = data.image;
-                featureImage.alt = data.alt;
-
-                insetImage.src = data.inset;
-                insetImage.alt = data.insetAlt;
-
-                caption.textContent = data.caption;
-
-                // Fade images back in
-                featureImage.classList.remove('opacity-0');
-                insetImage.classList.remove('opacity-0');
-
-            }, 180);
-        }
-
-        // Add hover + click functionality
-        tabs.forEach((tab) => {
-
-            // Desktop hover
-            tab.addEventListener('mouseenter', () => {
-                showTab(tab.dataset.tab, tab);
-            });
-
-            // Click support
-            tab.addEventListener('click', () => {
-                showTab(tab.dataset.tab, tab);
-            });
-
         });
-
-        // Optional: keyboard accessibility
-        tabs.forEach((tab) => {
-            tab.addEventListener('focus', () => {
-                showTab(tab.dataset.tab, tab);
-            });
-        });
-    </script>
-
-    <script>
-        (() => {
-            const sourceW = 1270;
-            const sourceH = 620;
-            const leftCrop = 280;
-            const topCrop = 45;
-            const visibleMapW = sourceW - leftCrop;
-            const visibleMapH = sourceH - topCrop;
-
-            const places = [
-                { n: '01', x: 305, y: 374, name: 'Entrance Portal', body: 'A welcoming gateway that sets the tone for each arrival.',  image: 'images/01.jpg', crop: '6% 61%' },
-                { n: '02', x: 559, y: 255, name: 'Academic Clusters', body: 'Flexible places for learning, making, and spontaneous conversation.', image: 'images/04.jpg', crop: '37% 34%' },
-                { n: '02', x: 909, y: 206, name: 'Academic Clusters', body: 'Flexible places for learning, making, and spontaneous conversation.', image: 'images/04.jpg', crop: '37% 34%' },
-                { n: '03', x: 732, y: 198, name: 'Innovation Hub', body: 'A collaborative home for ideas, research, and new ventures.', image: 'images/03.jpg', crop: '56% 20%' },
-                { n: '04', x: 663, y: 403, name: 'Open Amphitheater', body: 'A landscape for performances, talks, and shared campus moments.', image: 'images/06.jpg', crop: '48% 62%' },
-                { n: '05', x: 803, y: 393, name: 'Administration', body: 'The everyday service point at the heart of campus.', image: 'images/12.jpg', crop: '62% 60%' },
-                { n: '06', x: 1092, y: 321, name: 'Library & Research Center', body: 'A quiet knowledge hub for study, resources, and discovery.', image: 'images/10.jpg', crop: '86% 48%' },
-                { n: '07', x: 985, y: 375, name: 'Sport Facilities', body: 'Courts and activity spaces that bring movement into every day.', image: 'images/12.jpg', crop: '78% 62%' },
-                { n: '08', x: 1074, y: 478, name: 'Residential Clusters', body: 'Neighbourhood-style living woven into the campus landscape.', image: 'images/06.jpg', crop: '84% 77%' },
-                { n: '08', x: 472, y: 490, name: 'Residential Clusters', body: 'Neighbourhood-style living woven into the campus landscape.', image: 'images/03.jpg', crop: '84% 77%' },
-                { n: '09', x: 1086, y: 119, name: 'Parking', body: 'Edge-of-campus parking keeps the central landscape walkable.', image: 'images/13.jpg', crop: '86% 13%' },
-                { n: '09', x: 385, y: 133, name: 'Parking', body: 'Edge-of-campus parking keeps the central landscape walkable.', image: 'images/14.jpg', crop: '86% 13%' }
-            ]; 
-
-            const canvas = document.querySelector('#campusMap');
-            const ctx = canvas.getContext('2d');
-            const layer = document.querySelector('#placeLayer');
-            const image = new Image();
-
-            image.src = 'campus-masterplan.png';
-
-            let selected = null;
-            let popup;
-
-            function draw() {
-                const rect = canvas.getBoundingClientRect();
-                const dpr = Math.min(devicePixelRatio || 1, 2);
-
-                canvas.width = Math.round(rect.width * dpr);
-                canvas.height = Math.round(rect.height * dpr);
-                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-                ctx.fillStyle = '#eff0ec';
-                ctx.fillRect(0, 0, rect.width, rect.height);
-
-                const scale = Math.max(rect.width / visibleMapW, rect.height / visibleMapH);
-                const width = visibleMapW * scale;
-                const height = visibleMapH * scale;
-                const x = (rect.width - width) / 2;
-                const y = (rect.height - height) / 2;
-
-                ctx.drawImage(image, leftCrop, topCrop, visibleMapW, visibleMapH, x, y, width, height);
-
-                // Pins follow the exact cover-crop geometry of the canvas artwork.
-                places.forEach((place) => {
-                    if (!place.pin) return;
-
-                    place.pin.style.left = `${((x + (place.x - leftCrop) * scale) / rect.width) * 100}%`;
-                    place.pin.style.top = `${((y + (place.y - topCrop) * scale) / rect.height) * 100}%`;
-                });
-
-                if (selected && popup) {
-                    popup.style.left = selected.pin.style.left;
-                    popup.style.top = selected.pin.style.top;
-                }
-            }
-
-            // This creates each map pin. Its matching popup is built only when needed.
-            function makePin(place) {
-                const pin = document.createElement('button');
-                pin.className = 'pin';
-                pin.type = 'button';
-                pin.setAttribute('aria-label', place.name);
-                pin.setAttribute('aria-pressed', 'false');
-                pin.style.left = '50%';
-                pin.style.top = '50%';
-                pin.innerHTML = '<span></span><b class="pin-label"></b>';
-                pin.querySelector('.pin-label').textContent = place.name;
-
-                const activatePin = () => select(place);
-
-                pin.addEventListener('mouseenter', activatePin);
-                pin.addEventListener('mouseleave', schedulePopupClose);
-                pin.addEventListener('focus', activatePin);
-                pin.addEventListener('click', activatePin);
-                pin.addEventListener('keydown', (event) => {
-                    if (event.key === 'Escape') closePopup();
-                });
-
-                place.pin = pin;
-                layer.append(pin);
-            }
-
-            function select(place) {
-                selected = place;
-
-                places.forEach((item) => {
-                    item.pin.setAttribute('aria-pressed', String(item === place));
-                });
-
-                renderPopup(place);
-            }
-
-            function renderPopup(place) {
-                if (!popup) {
-                    popup = document.createElement('article');
-                    popup.className = 'pin-popup';
-                    popup.setAttribute('role', 'dialog');
-                    popup.setAttribute('aria-live', 'polite');
-                    layer.append(popup);
-
-                    popup.addEventListener('mouseenter', () => clearTimeout(popup.closeTimer));
-                    popup.addEventListener('mouseleave', schedulePopupClose);
-                }
-
-                clearTimeout(popup.closeTimer);
-                popup.style.setProperty('--crop', place.crop);
-                popup.style.left = place.pin.style.left;
-                popup.style.top = place.pin.style.top;
-                popup.innerHTML = `
-                    <button class="pin-popup-close" type="button" aria-label="Close ${place.name} details">&times;</button>
-                    <div class="map-crop"></div>
-                    <div class="card-copy">
-                    <span class="number">${place.n}</span>
-                    <h4 id="pin-popup-title">${place.name}</h4>
-                    <p>${place.body}</p>
-                    </div>
-                `;
-                const mapCrop = popup.querySelector('.map-crop');
-
-                if (place.image) {
-                    mapCrop.style.backgroundImage = `url("${place.image}")`;
-                } else {
-                    mapCrop.style.backgroundImage = `url("campus-masterplan.png")`;
-                    mapCrop.style.backgroundPosition = place.crop;
-                }
-                popup.setAttribute('aria-labelledby', 'pin-popup-title');
-                popup.querySelector('.pin-popup-close').addEventListener('click', closePopup);
-                popup.classList.add('is-open');
-            }
-
-            function schedulePopupClose() {
-                if (!popup) return;
-
-                popup.closeTimer = setTimeout(closePopup, 180);
-            }
-
-            function closePopup() {
-                if (!popup) return;
-
-                clearTimeout(popup.closeTimer);
-                popup.classList.remove('is-open');
-
-                if (selected) selected.pin.setAttribute('aria-pressed', 'false');
-                selected = null;
-            }
-
-            // Hide the popup after leaving a pin, unless the pointer enters the popup.
-            layer.addEventListener('mouseleave', schedulePopupClose);
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape') closePopup();
-            });
-
-            places.forEach(makePin);
-
-            image.addEventListener('load', draw);
-            new ResizeObserver(draw).observe(canvas);
-            window.addEventListener('load', draw);
-        })();
     </script>
 
 </body>

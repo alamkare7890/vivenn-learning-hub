@@ -12,7 +12,7 @@ body {
 }
 
 a {
-    @apply text-black hover:text-[#23472b] transition-all duration-300 inline-flex;
+    @apply hover:text-[#BFA264] transition-all duration-300 inline-flex;
 }
 
 h1,
@@ -23,7 +23,7 @@ h5,
 h6,
 p,
 blockquote {
-    font-family: "Plus Jakarta Sans", sans-serif;
+    font-family: "Chivo", sans-serif;
     line-height: 120% !important;
 }
 
@@ -33,28 +33,28 @@ ol {
 }
 
 h2 {
-    @apply font-semibold tracking-[-0.035em] text-black capitalize text-2xl md:text-3xl xl:text-4xl;
+    @apply font-normal tracking-[-0.035em] text-black capitalize text-2xl;
 }
 
 .theme_button {
-    background: linear-gradient(53deg, #013162 0%, #005377 40%, #00a89c 100%);
-    @apply justify-center py-6 px-8  border-1 border-transparent leading-0 rounded-3xl text-base font-medium text-white cursor-pointer text-center;
+    background: linear-gradient(220deg,
+            #01BCBA 0%,
+            #02758D 20%,
+            #023161 66%,
+            #023162 87%, 
+            #033064 100%);
+    @apply justify-center sm:py-6 py-5 px-5 sm:px-6 border border-transparent leading-0 rounded-3xl text-sm sm:text-base font-medium text-white cursor-pointer text-center;
 }
 
 .theme_button.light_mode {
-    @apply text-white;
-    background: linear-gradient(    135deg,    #5b2c0b 0%,    #9a6415 2%,    #f6c43d 20%,    #ae7722 100%  );
+    @apply rounded-full bg-gradient-to-br from-[#e8c960] to-[#ae7e17] text-white;
 }
 
-.theme_button:hover {
-    @apply  text-white transition-all duration-700;
-    background: linear-gradient(106deg, #013162 0%, #005377 40%, #00a89c 100%);
-
+.theme_button.light_line {
+    @apply bg-none border py-3.5 sm:py-4.5 border-white inline-flex gap-4 items-center bg-transparent transition-all;
 }
-
-.theme_button.light_mode:hover {
-    @apply  text-white transition-all duration-700;
-    background: linear-gradient(    270deg,    #5b2c0b 0%,    #9a6415 2%,    #f6c43d 20%,    #ae7722 100%  );
+.theme_button.light_line:hover{
+      @apply bg-white border-transparent text-black;
 }
 
 .container_wrapper {
@@ -65,92 +65,8 @@ h2 {
     font-family: "Plus Jakarta Sans", sans-serif;
 }
 
-.site_header .logo img {
-    @apply w-48;
-}
-
-.site_header {
-    transition: all 0.4s ease;
-}
-.site_header .header_inner {
-    @apply py-4 mt-4;
-}
-.site_header.sticky_header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: white;
-}
-
-.site_header.sticky_header .header_inner {
-    @apply py-4! max-w-321 mx-auto;
-}
-.site_header.sticky_header ul li a{
-    @apply  text-black hover:text-[#a97a29] transition-all duration-300;
-}
-.site_header ul li a {
-    @apply text-sm font-medium text-black hover:text-[#a97a29] transition-all duration-300;
-}
-.site_header ul li a.active{
-    @apply text-[#a97a29];
-}
-.site_header .logo img {
-    @apply w-32 sm:w-40 xl:w-48;
-}
-
-.site_header.sticky_header .header_inner {
-    @apply mt-0 rounded-t-none py-3  sm:py-4;
-}
-
-.nav_link {
-    @apply text-base font-medium text-black transition-colors duration-300 hover:text-[#a97a29];
-}
-
-.menu_toggle {
-    @apply relative cursor-pointer grid lg:hidden size-11 place-items-center rounded-full border border-[#013162] text-[#013162] transition-colors hover:bg-[#013162] hover:border-[#013162] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#013162];
-}
-
-.menu_toggle svg {
-    @apply size-6 fill-none stroke-current stroke-2;
-}
-
-.menu_close {
-    @apply hidden;
-}
-
-.menu_toggle[aria-expanded="true"] .menu_open {
-    @apply hidden;
-}
-
-.menu_toggle[aria-expanded="true"] .menu_close {
-    @apply block;
-}
-
-.mobile_menu {
-    width: calc(100% - 24px);
-    @apply invisible mt-2 max-h-0 overflow-hidden rounded-2xl bg-white opacity-0 transition-all duration-300 absolute top-auto left-3 z-50;
-}
-
-.mobile_menu.is-open {
-    @apply visible max-h-screen opacity-100;
-}
-
-.mobile_menu ul {
-    @apply divide-y divide-black/10 px-5 pt-2;
-}
-
-.mobile_menu li a {
-    @apply block py-4 text-base font-medium text-black transition-colors hover:text-[#a97a29];
-}
-
-.mobile_cta {
-    @apply mx-5 mb-5 mt-2 flex justify-center;
-    max-width: 88%;
-}
-
 .eyebrow_text {
-    @apply mb-5 max-w-md text-xs font-bold uppercase leading-relaxed tracking-[0.14em] text-[#a97a29] sm:mb-6 sm:max-w-none sm:text-sm;
+    @apply text-sm font-medium text-[#BFA264];
 }
 
 .overlay {
@@ -163,51 +79,20 @@ h2 {
 }
 
 p:last-child {
-    @apply mb-0;
+    @apply mb-0!;
 }
 
 p {
-    @apply text-base font-normal mb-6;
+    @apply text-sm sm:text-base font-normal;
     line-height: 180% !important;
 }
 
-.banner_block{
-    @apply mt-0 sm:mt-6 overflow-hidden px-4 py-6 md:px-10 md:py-8 mx-auto rounded-3xl;
+h1 {
+    @apply text-2xl md:text-[32px] leading-10;
 }
-.research_innovation_block{
-        background: linear-gradient(53deg, #013162 45%, #005377 75%, #00a89c 100%);
-}
-/*Plot View Box*/
-.experience_block{
-    @apply  m-6 max-w-321  mx-auto rounded-3xl  pt-24; 
-}
-/*Footer Logo */
-.footer_block{
-    max-width: calc(100vw - 48px);
-    background: linear-gradient(53deg, #013162 45%, #005377 75%, #00a89c 100%);
-    @apply my-6 overflow-hidden mx-auto rounded-3xl;
-}
-.footer_logo img {
-    @apply w-60;
-}
-@media only screen and (max-width: 768px) {
-    .theme_button{
-        @apply w-full;
-                display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 1;
-        overflow: hidden;
-    }
-    .site_header.sticky_header .menu_toggle{
-        @apply bg-[#013162] text-white;
-    }
-    .site_header ul li a{
-        @apply text-black;
-    }
-    
-}
-@media only screen and (max-width: 1440px) {
-    .experience_block{
-        @apply max-w-240;
-    }
+
+h2.secondary_heading {
+    @apply text-xl sm:text-2xl font-normal
+        bg-[linear-gradient(320deg,_#01BCBA_0%,_#02758D_20%,_#023161_57%,_#033064_100%)]
+        bg-clip-text text-transparent;
 }
