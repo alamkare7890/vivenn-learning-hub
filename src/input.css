@@ -43,13 +43,19 @@ h2 {
             #023161 66%,
             #023162 87%, 
             #033064 100%);
-    @apply justify-center sm:py-6 py-5 px-5 sm:px-6 border border-transparent leading-0 rounded-3xl text-sm sm:text-base font-medium text-white cursor-pointer text-center;
+    @apply justify-center sm:py-6 py-5 px-5 sm:px-6 border border-transparent transition-all leading-0 rounded-3xl text-sm sm:text-base font-medium text-white cursor-pointer text-center;
 }
-
+.theme_button:hover{
+    background: transparent;
+    @apply border-[#033064] text-[#033064] transition-all;
+}
 .theme_button.light_mode {
     @apply rounded-full bg-gradient-to-br from-[#e8c960] to-[#ae7e17] text-white;
 }
-
+.theme_button.light_mode:hover{
+    background: transparent;
+    @apply border-[#ae7e17] text-[#ae7e17];
+}
 .theme_button.light_line {
     @apply bg-none border py-3.5 sm:py-4.5 border-white inline-flex gap-4 items-center bg-transparent transition-all;
 }
@@ -64,7 +70,9 @@ h2 {
 .font_serif {
     font-family: "Plus Jakarta Sans", sans-serif;
 }
-
+ul li a.active{
+    @apply text-[#BFA264];
+}
 .eyebrow_text {
     @apply text-sm font-medium text-[#BFA264];
 }
@@ -75,9 +83,11 @@ h2 {
 
 .overlay::before {
     content: "";
-    @apply absolute inset-0 -z-10 bg-gradient-to-r from-[#071c16]/80 via-transparent to-transparent rounded-b-4xl;
+    @apply absolute inset-0 z-10 bg-[#071c16]/35 via-transparent to-transparent rounded-b-4xl;
 }
-
+.overlay_light::before{
+    @apply rounded-[20px] bg-white/20;
+}
 p:last-child {
     @apply mb-0!;
 }
@@ -95,4 +105,9 @@ h2.secondary_heading {
     @apply text-xl sm:text-2xl font-normal
         bg-[linear-gradient(320deg,_#01BCBA_0%,_#02758D_20%,_#023161_57%,_#033064_100%)]
         bg-clip-text text-transparent;
+}
+
+.box_image::before{
+    content: "";
+    @apply bg-white/40 absolute top-0 left-0 w-full h-full z-10;
 }
