@@ -1,18 +1,17 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 
 html {
     scroll-behavior: smooth;
 }
 
 body {
-    font-family: "Inter", sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-size: 16px;
     line-height: 120%;
 }
 
 a {
-    @apply hover:text-[#BFA264] transition-all duration-300 inline-flex;
+    @apply hover:text-[#FCC95C] transition-all duration-300 inline-flex;
 }
 
 h1,
@@ -21,9 +20,8 @@ h3,
 h4,
 h5,
 h6,
-p,
 blockquote {
-    font-family: "Chivo", sans-serif;
+    font-family: "Playfair Display", serif;
     line-height: 120% !important;
 }
 
@@ -37,27 +35,25 @@ h2 {
 }
 
 .theme_button {
-    background: linear-gradient(220deg,
-            #01BCBA 0%,
-            #02758D 20%,
-            #023161 66%,
-            #023162 87%, 
-            #033064 100%);
-    @apply justify-center sm:py-6 py-5 px-5 sm:px-6 border border-transparent transition-all leading-0 rounded-3xl text-sm sm:text-base font-medium text-white cursor-pointer text-center;
+    background: #FCC95C;
+    @apply justify-center inline-flex sm:py-3 py-3 px-4 border border-transparent transition-all leading-[1.2] rounded-3xl text-sm sm:text-sm font-medium text-[#033064] cursor-pointer text-center;
+}
+.theme_button svg {
+    @apply ml-2 h-4 w-4;
 }
 .theme_button:hover{
     background: transparent;
     @apply border-[#033064] text-[#033064] transition-all;
 }
 .theme_button.light_mode {
-    @apply rounded-full bg-gradient-to-br from-[#e8c960] to-[#ae7e17] text-white;
+    @apply rounded-full bg-[#FCC95C] text-[#033064];
 }
 .theme_button.light_mode:hover{
     background: transparent;
-    @apply border-[#ae7e17] text-[#ae7e17];
+    @apply border-[#FCC95C] text-[#FCC95C];
 }
 .theme_button.light_line {
-    @apply bg-none border py-3.5 sm:py-4.5 border-white inline-flex gap-4 items-center bg-transparent transition-all;
+    @apply bg-none border text-white py-3.5 sm:py-3.5 border-white inline-flex gap-4 items-center bg-transparent transition-all;
 }
 .theme_button.light_line:hover{
       @apply bg-white border-transparent text-black;
@@ -71,10 +67,10 @@ h2 {
     font-family: "Plus Jakarta Sans", sans-serif;
 }
 ul li a.active{
-    @apply text-[#BFA264];
+    @apply text-[#FCC95C];
 }
 .eyebrow_text {
-    @apply text-sm font-medium text-[#BFA264];
+    @apply text-sm font-medium text-[#FCC95C];
 }
 
 .overlay {
@@ -98,11 +94,11 @@ p {
 }
 
 h1 {
-    @apply text-2xl md:text-[32px] leading-10;
+    @apply text-3xl md:text-4xl leading-10;
 }
 
 h2.secondary_heading {
-    @apply text-xl sm:text-2xl font-normal
+    @apply text-2xl sm:text-3xl md:text-4xl font-normal
         bg-[linear-gradient(320deg,_#01BCBA_0%,_#02758D_20%,_#023161_57%,_#033064_100%)]
         bg-clip-text text-transparent;
 }
@@ -110,4 +106,25 @@ h2.secondary_heading {
 .box_image::before{
     content: "";
     @apply bg-white/40 absolute top-0 left-0 w-full h-full z-10;
+}
+.quote_block{
+    @apply relative top-26 -left-10 z-10 rounded-[20px] w-75 h-75 bg-white p-6;
+}
+.quote_block .icon{
+    @apply w-28 h-28 rounded-full rotate-180 flex items-center justify-center;
+}
+@media only screen and (max-width: 767px) {
+    .overlay_mobile{
+        @apply relative z-10 rounded-b-4xl;
+    }
+    .overlay_mobile::before{
+        content: "";
+        @apply absolute inset-0 -z-1 bg-[#071c16]/35 via-transparent to-transparent rounded-b-4xl;
+    }
+    .quote_block {
+        @apply relative top-0 left-0 z-10 rounded-[20px] w-full h-auto bg-white p-6;
+    }
+    .theme_button.light_line{
+        @apply py-3;
+    }
 }
